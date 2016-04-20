@@ -1,0 +1,115 @@
+html(lang='en', ng-app='StorkStalker')
+    head
+        link(rel='stylesheet', href='//ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.css')
+        link(rel='stylesheet', href='/stylesheets/dashboard.css')
+    body(layout='row', ng-controller='AppCtrl')
+        md-sidenav.md-sidenav-left.md-whiteframe-z2(layout='column', md-component-id='left', md-is-locked-open="$mdMedia('gt-md')")
+            md-toolbar.md-tall.md-hue-2
+                span(flex='')
+                .md-toolbar-tools-bottom.inset(layout='column')
+                    user-avatar
+                    span
+                    div {{user.first}} {{user.last}}
+                    div {{user.email}}
+            md-list
+                md-item(ng-repeat='item in menu')
+                    a
+                        md-item-content(md-ink-ripple='', layout='row', layout-align='start center')
+                            .inset
+                                ng-md-icon(icon='{{item.icon}}')
+                            .inset
+                                | {{item.title}}
+                md-divider
+                md-subheader Management
+                md-item(ng-repeat='item in admin')
+                    a
+                        md-item-content(md-ink-ripple='', layout='row', layout-align='start center')
+                            .inset
+                                ng-md-icon(icon='{{item.icon}}')
+                            .inset
+                                | {{item.title}}
+        .relative(layout='column', layout-fill='', role='main')
+            md-button.md-fab.md-fab-bottom-right(aria-label='Add', ng-click='showAdd($event)')
+                ng-md-icon(icon='add')
+            md-toolbar(ng-show='!showSearch')
+                .md-toolbar-tools
+                    md-button(ng-click="toggleSidenav('left')", hide-gt-md='', aria-label='Menu')
+                        ng-md-icon(icon='menu')
+                    h3
+                        | Dashboard
+                    span(flex='')
+                    md-button(aria-label='Search', ng-click='showSearch = !showSearch')
+                        ng-md-icon(icon='search')
+                md-tabs.md-primary(md-stretch-tabs='', md-selected='data.selectedIndex')
+                    md-tab#tab1(aria-controls='tab1-content')
+                        | Latest
+                    md-tab#tab2(aria-controls='tab2-content')
+                        | Arriving
+            md-toolbar.md-hue-1(ng-show='showSearch')
+                .md-toolbar-tools
+                    md-button(ng-click='showSearch = !showSearch', aria-label='Back')
+                        ng-md-icon(icon='arrow_back')
+                    h3(flex='10')
+                        | Back
+                    md-input-container(md-theme='input', flex='')
+                        label  
+                        input(ng-model='search.who', placeholder='enter search')
+                    md-button(aria-label='Search', ng-click='showSearch = !showSearch')
+                        ng-md-icon(icon='search')
+                    md-button(aria-label='Open Settings', ng-click='showListBottomSheet($event)')
+                        ng-md-icon(icon='more_vert')
+            md-content(flex='', md-scroll-y='')
+                ui-view(layout='column', layout-fill='', layout-padding='')
+                    .inset(hide-sm='')
+                    ng-switch.tabpanel-container(on='data.selectedIndex')
+                        #tab1-content(role='tabpanel', aria-labelledby='tab1', ng-switch-when='0', md-swipe-left='next()', md-swipe-right='previous()', layout='row', layout-align='center center')
+                            md-card(flex-gt-sm='90', flex-gt-md='80')
+                                md-card-content
+                                    h2 Packages
+                                    md-list
+                                        md-item(ng-repeat='item in packages | filter:search')
+                                            md-item-content(ng-click='showPackage($event, item)')
+                                                .md-tile-left.inset(hide-sm='')
+                                                    user-avatar
+                                                .md-tile-content(md-ink-ripple='', ng-click='null')
+                                                    h3 {{item.name}}
+                                                    h4 {{item.carrier}} {{item.expected}}
+                                                    p
+                                                        | {{item.details}}
+                                            md-divider(md-inset='', hide-sm='', ng-if='!$last')
+                                            md-divider(hide-gt-sm='', ng-if='!$last')
+                                        md-divider
+                                        md-item.inset(layout='')
+                                            md-button.md-primary(layout='', layout-align='start center', flex='')
+                                                svg(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewbox='0 0 24 24')
+                                                    path(d='M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z')
+                                                |  More
+                        #tab2-content(role='tabpanel', aria-labelledby='tab2', ng-switch-when='1', md-swipe-left='next()', md-swipe-right='previous()', layout='row', layout-align='center center')
+                            md-card(flex-gt-sm='90', flex-gt-md='80')
+                                md-card-content
+                                    h2 Packages
+                                    md-list
+                                        md-item(ng-repeat="item in packages | filter:search | orderBy:'-date'")
+                                            md-item-content
+                                                .md-tile-left.inset(hide-sm='')
+                                                    user-avatar
+                                                .md-tile-content(md-ink-ripple='', ng-click='null')
+                                                    h3 {{item.name}}
+                                                    h4 {{item.carrier}} {{item.expected}}
+                                                    p
+                                                        | {{item.details}}
+                                            md-divider(md-inset='', hide-sm='', ng-if='!$last')
+                                            md-divider(hide-gt-sm='', ng-if='!$last')
+                                        md-divider
+                                        md-item.inset(layout='')
+                                            md-button.md-primary(layout='', layout-align='start center', flex='')
+                                                svg(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewbox='0 0 24 24')
+                                                    path(d='M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z')
+                                                |  More
+        // Angular Material Dependencies
+        script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js')
+        script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.min.js')
+        script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-aria.min.js')
+        script(src='//ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.js')
+        script(src='//cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js')
+        script(src='javascripts/dashboard.js')
