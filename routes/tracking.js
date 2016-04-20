@@ -60,5 +60,12 @@ router.get('/', function(req, res) {
     })
 });
 
+var connectSocketToUid = function (socket, uid) {
+    console.log('hello from tracking.js : ' + uid);
+}
 
-module.exports = router;
+
+module.exports = {
+    router: router,
+    connectSocketToUid: connectSocketToUid
+};

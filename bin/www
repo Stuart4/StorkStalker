@@ -16,20 +16,20 @@ var appEnv = cfenv.getAppEnv();
  */
 
 var port = appEnv.port;
-app.set('port', port);
+app.app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+var server = http.createServer(app.app);
 
 // socket.io
 var io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
   socket.on('uid', function(uid) {
-    console.log('user connected: ' + uid);
+    app.connectSocketToUid(socket, uid);
   });
 });
 
