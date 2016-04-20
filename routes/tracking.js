@@ -38,7 +38,6 @@ router.post('/', function(req, res) {
         uid: Number
     });
     var TrackingModel = mongoose.model('TrackingModel', trackingSchema);
-
     easypost.Tracker.create({ 'tracking_code': req.body.tracking_code}, function(err,res) {
         res['uid'] = req.body.uid;
         var child = new TrackingModel(res);

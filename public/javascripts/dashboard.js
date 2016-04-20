@@ -1,8 +1,14 @@
 var app = angular.module('StorkStalker', ['ngMaterial', 'ngMdIcons']);
 
-app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog', function($scope, $mdBottomSheet, $mdSidenav, $mdDialog) {
+app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog', '$http', function($scope, $mdBottomSheet, $mdSidenav, $mdDialog, $http) {
     $scope.toggleSidenav = function(menuId) {
         $mdSidenav(menuId).toggle();
+    };
+    $scope.user = {
+        first: 'Jacob',
+        last: 'Stuart',
+        email: 'stuart4@purdue.edu',
+        uid: 787
     };
     $scope.menu = [{
         link: '',
@@ -39,11 +45,6 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
         expected: '3/27/16',
         details: "1x Fancy Juice Glass"
     }];
-    $scope.user = {
-        first: 'Jacob',
-        last: 'Stuart',
-        email: 'stuart4@purdue.edu'
-    };
     $scope.alert = '';
 
     $scope.showPackage = function(ev, package) {
@@ -58,11 +59,45 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     $scope.showAdd = function(ev) {
         $mdDialog.show({
                 controller: DialogController,
-                template: '<md-dialog aria-label="Mango (Fruit)"> <md-content class="md-padding"> <form name="userForm"> <div layout layout-sm="column"> <md-input-container flex> <label>Tracking Number</label> <input ng-model="package.number"> </md-input-container> <md-input-container flex> <label>Carrier</label> <input ng-model="package.carrier"> </md-input-container> </div> <md-input-container flex> <label>Name</label> <input ng-model="package.name"> </md-input-container> <md-input-container flex> <label>Description</label> <textarea ng-model="package.details" columns="1" md-maxlength="150"></textarea> </md-input-container> </form> </md-content> <div class="md-actions" layout="row"> <span flex></span> <md-button ng-click="answer()"> Cancel </md-button> <md-button ng-click="answer(package)" class="md-primary"> Add </md-button> </div></md-dialog>',
-                targetEvent: ev,
+                template:
+                '<md-dialog aria-label="Mango (Fruit)">' +
+                '<md-content class="md-padding">' +
+                '   <form name="addForm">' +
+                '       <div layout layout-sm="column">' +
+                '           <md-input-container flex>' +
+                '               <label>Tracking Number</label>' +
+                '               <input ng-model="package.number">' +
+                '           </md-input-container>' +
+                '       </div>' +
+                '       <div layout layout-sm="column">' +
+                '           <md-input-container flex>' +
+                '               <label>Description</label>' +
+                '               <input ng-model="package.description">' +
+                '           </md-input-container>' +
+                '       </div>' +
+                '   </form>' +
+                '</md-content>' +
+                '<div class="md-actions" layout="row">' +
+                '   <span flex>' +
+                '   </span>' +
+                '   <md-button ng-click="answer()"> Cancel </md-button>' +
+                '   <md-button ng-click="answer(package)" class="md-primary">' +
+                '       Add ' +
+                '   </md-button>' +
+                '</div>' +
+                '</md-dialog>',
+                targetEvent: ev
             })
             .then(function(answer) {
-                console.log(answer);
+                $http({
+                    url: '/tracking',
+                    method: 'POST',
+                    data: {
+                        'tracking_code': answer.number,
+                        'uid': $scope.user.uid,
+                        'description': answer['description']
+                    }
+                });
             }, function() {
                 //user cancelled
             });
@@ -93,8 +128,7 @@ function DialogController($scope, $mdDialog) {
     $scope.answer = function(answer) {
         $mdDialog.hide(answer);
     };
-};
-
+}
 app.directive('userAvatar', function() {
     return {
         replace: true,
