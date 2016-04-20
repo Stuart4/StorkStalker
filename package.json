@@ -16,6 +16,7 @@
     "serve-favicon": "~2.3.0",
     "mongoose": "latest",
     "node-easypost": "latest",
-    "cfenv": "1.0.x"
+    "cfenv": "1.0.x",
+    "socket.io": "latest"
   }
 }
