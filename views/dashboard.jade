@@ -45,6 +45,8 @@ html(lang='en', ng-app='StorkStalker')
                         | Latest
                     md-tab#tab2(aria-controls='tab2-content')
                         | Arriving
+                    md-tab#tab3(aria-controls='tab3-content')
+                        | Delivered
             md-toolbar.md-hue-1(ng-show='showSearch')
                 .md-toolbar-tools
                     md-button(ng-click='showSearch = !showSearch', aria-label='Back')
@@ -91,6 +93,29 @@ html(lang='en', ng-app='StorkStalker')
                                     md-list
                                         md-item(ng-repeat="item in packages | filter:search | orderBy:'-date'")
                                             md-item-content
+                                                .md-tile-left.inset(hide-sm='')
+                                                    user-avatar
+                                                .md-tile-content(md-ink-ripple='', ng-click='null')
+                                                    h3 {{item.name}}
+                                                    h4 {{item.carrier}} {{item.expected}}
+                                                    p
+                                                        | {{item.details}}
+                                            md-divider(md-inset='', hide-sm='', ng-if='!$last')
+                                            md-divider(hide-gt-sm='', ng-if='!$last')
+                                        md-divider
+                                        md-item.inset(layout='')
+                                            md-button.md-primary(layout='', layout-align='start center', flex='')
+                                                svg(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewbox='0 0 24 24')
+                                                    path(d='M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z')
+                                                |  More
+                        #tab3-content(role='tabpanel', aria-labelledby='tab3', ng-switch-when='2',
+                        md-swipe-left='next()', md-swipe-right='previous()', layout='row', layout-align='center center')
+                            md-card(flex-gt-sm='90', flex-gt-md='80')
+                                md-card-content
+                                    h2 Packages
+                                    md-list
+                                        md-item(ng-repeat='item in packages | filter:search')
+                                            md-item-content(ng-click='showPackage($event, item)')
                                                 .md-tile-left.inset(hide-sm='')
                                                     user-avatar
                                                 .md-tile-content(md-ink-ripple='', ng-click='null')
