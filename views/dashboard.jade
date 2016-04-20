@@ -75,8 +75,8 @@ html(lang='en', ng-app='StorkStalker')
                                                 .md-tile-left.inset(hide-sm='')
                                                     user-avatar
                                                 .md-tile-content(md-ink-ripple='', ng-click='null')
-                                                    h3 {{item.name}}
-                                                    h4 {{item.carrier}} {{item.expected}}
+                                                    h3 {{item.tracking_code}}
+                                                    h4 {{item.carrier}} {{item.est_delivery_date}}
                                                     p
                                                         | {{item.details}}
                                             md-divider(md-inset='', hide-sm='', ng-if='!$last')

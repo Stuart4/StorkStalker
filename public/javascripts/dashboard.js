@@ -20,31 +20,16 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
         title: 'Settings',
         icon: 'settings'
     }];
-    $scope.packages = [{
-        name: 'Amazon',
-        number: '9361289690090020439512',
-        carrier: 'USPS',
-        expected: '4/17/16',
-        details: "1x Novatouch TKL"
-    }, {
-        name: 'Elite Keyboards',
-        number: '9361289690090020439512',
-        carrier: 'UPS',
-        expected: '4/18/16',
-        details: "1x HHKB Pro"
-    }, {
-        name: 'Aliexpress',
-        number: '9361289690090020439512',
-        carrier: 'Fedex',
-        expected: '3/27/16',
-        details: "2x Padres Jersey"
-    }, {
-        name: 'Aliexpress',
-        number: '9361289690090020439512',
-        carrier: 'Fedex',
-        expected: '3/27/16',
-        details: "1x Fancy Juice Glass"
-    }];
+    $http({
+        url: '/tracking',
+        method: 'GET',
+        params: {
+            'uid': $scope.user.uid
+        }
+    }).then(function (response) {
+        console.log(response);
+        $scope.packages = response.data;
+    });
     $scope.alert = '';
 
     $scope.showPackage = function(ev, package) {
