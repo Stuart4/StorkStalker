@@ -7,12 +7,15 @@
 var app = require('../app');
 var debug = require('debug')('StorkStalker-ng:server');
 var http = require('http');
+var cfenv = require('cfenv');
+
+var appEnv = cfenv.getAppEnv();
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = appEnv.port;
 app.set('port', port);
 
 /**
