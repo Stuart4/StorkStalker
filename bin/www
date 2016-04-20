@@ -28,7 +28,6 @@ var server = http.createServer(app);
 var io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
-  console.log('connection');
   socket.on('uid', function(uid) {
     console.log('user connected: ' + uid);
   });
