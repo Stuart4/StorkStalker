@@ -48,7 +48,6 @@ router.post('/', function(req, res) {
         child.save(function (err) {
             if (err) throw err;
             console.log('added a new document to the mongo')
-
         });
 
     });

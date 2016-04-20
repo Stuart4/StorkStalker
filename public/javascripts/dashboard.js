@@ -27,7 +27,6 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
             'uid': $scope.user.uid
         }
     }).then(function (response) {
-        console.log(response);
         $scope.packages = response.data;
     });
     $scope.alert = '';
@@ -99,6 +98,8 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 //user cancelled
             });
     };
+    $scope.socket = io();
+    $scope.socket.emit('uid', $scope.user.uid);
 }]);
 
 
@@ -135,5 +136,7 @@ app.config(function($mdThemingProvider) {
         })
         .accentPalette('pink');
     $mdThemingProvider.theme('input', 'default')
-        .primaryPalette('grey')
+        .primaryPalette('grey');
+
+
 });
