@@ -16,7 +16,8 @@ router.post('/', function(req, res) {
 
         child.save(function (err) {
             if (err) throw err;
-            uidToSocketMap.get(req.body.uid).emit('update');
+            var sock = uidToSocketMap.get(req.body.uid);
+            sock.emit('update');
         });
 
     });
@@ -36,5 +37,6 @@ var connectSocketToUid = function (socket, uid) {
 
 module.exports = {
     router: router,
-    connectSocketToUid: connectSocketToUid
+    connectSocketToUid: connectSocketToUid,
+    hashmap: uidToSocketMap
 };

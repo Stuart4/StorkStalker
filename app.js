@@ -9,12 +9,14 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 
 //var users = require('./routes/users');
-var easypost = require('./routes/easypost');
 var tracking = require('./routes/tracking');
 
 var connectSocketToUid = function(socket, uid) {
   tracking.connectSocketToUid(socket, uid);
 };
+
+var easypost = require('./routes/easypost');
+easypost.hashMap = tracking.hashMap;
 
 var app = express();
 
@@ -40,7 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 //app.use('/users', users);
 app.use('/tracking', tracking.router);
-app.use('/easypost', easypost);
+app.use('/easypost', easypost.router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
