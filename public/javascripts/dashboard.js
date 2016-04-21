@@ -10,16 +10,20 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
         email: 'stuart4@purdue.edu',
         uid: 787
     };
-    $scope.menu = [{
-        link: '',
+    $scope.menu = [
+        { link: '',
         title: 'Dashboard',
-        icon: 'dashboard'
-    }];
-    $scope.admin = [{
-        link: 'showListBottomSheet($event)',
+        icon: 'dashboard' }
+    ];
+    $scope.admin = [
+        { link: 'showListBottomSheet($event)',
         title: 'Settings',
-        icon: 'settings'
-    }];
+        icon: 'settings'},
+        { link: '',
+            title: 'Sign Out',
+            icon: 'exit_to_app'
+        }
+    ];
     $scope.socketConnected = false;
     $scope.dataLoaded = false;
     $scope.doneLoading = function() {
