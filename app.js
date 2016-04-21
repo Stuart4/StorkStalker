@@ -8,7 +8,8 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 
-var users = require('./routes/users');
+//var users = require('./routes/users');
+var easypost = require('./routes/easypost');
 var tracking = require('./routes/tracking');
 
 var connectSocketToUid = function(socket, uid) {
@@ -37,8 +38,9 @@ app.use(require('node-sass-middleware')({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+//app.use('/users', users);
 app.use('/tracking', tracking.router);
+app.use('/easypost', easypost);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -17,6 +17,7 @@
     "mongoose": "latest",
     "node-easypost": "latest",
     "cfenv": "1.0.x",
-    "socket.io": "latest"
+    "socket.io": "latest",
+    "hashmap": "latest"
   }
 }

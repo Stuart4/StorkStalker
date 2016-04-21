@@ -20,15 +20,19 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
         title: 'Settings',
         icon: 'settings'
     }];
-    $http({
-        url: '/tracking',
-        method: 'GET',
-        params: {
-            'uid': $scope.user.uid
-        }
-    }).then(function (response) {
-        $scope.packages = response.data;
-    });
+    $scope.updatePackages = function() {
+        $http({
+            url: '/tracking',
+            method: 'GET',
+            params: {
+                'uid': $scope.user.uid
+            }
+        }).then(function (response) {
+            $scope.packages = response.data;
+        });
+    };
+    $scope.updatePackages();
+    
     $scope.alert = '';
 
     $scope.showPackage = function(ev, package) {
@@ -36,7 +40,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
             targetEvent: ev,
             controller: function () {this.package = package;},
             controllerAs: 'ctrl',
-            template: '<md-dialog> <h1> {{ctrl.package}} </h1> </md-dialog>'
+            template: '<md-dialog> <h1> {{ctrl.package.status}} </h1> </md-dialog>'
         });
     };
 
@@ -79,7 +83,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                     data: {
                         'tracking_code': answer.number,
                         'uid': $scope.user.uid,
-                        'description': answer['description']
+                        'description': answer.description
                     }
                 });
             }, function() {
@@ -100,6 +104,10 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     };
     $scope.socket = io();
     $scope.socket.emit('uid', $scope.user.uid);
+    
+    $scope.socket.on('update', function() {
+        $scope.updatePackages();
+    });
 }]);
 
 
