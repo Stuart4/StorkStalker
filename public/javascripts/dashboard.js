@@ -1,6 +1,6 @@
 var app = angular.module('StorkStalker', ['ngMaterial', 'ngMdIcons']);
 
-app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog', '$http', function($scope, $mdBottomSheet, $mdSidenav, $mdDialog, $http) {
+app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog', '$http', '$mdToast', function($scope, $mdBottomSheet, $mdSidenav, $mdDialog, $http, $mdToast) {
     $scope.toggleSidenav = function(menuId) {
         $mdSidenav(menuId).toggle();
     };
@@ -37,6 +37,14 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
             $scope.dataLoaded = true;
             console.log('loaded data');
         });
+    };
+    $scope.showToast = function(msg) {
+        $mdToast.show(
+            $mdToast.simple()
+                .content(msg)
+                .position("bottom left")
+                .hideDelay(4000)
+        );
     };
     $scope.updatePackages();
     
@@ -111,6 +119,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     };
     $scope.socket = io();
     $scope.socket.emit('uid', $scope.user.uid);
+    
     $scope.socket.on('connect', function() {
         console.log('connected to socket');
         $scope.socketConnected = true;
@@ -119,6 +128,11 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     $scope.socket.on('update', function() {
         $scope.updatePackages();
     });
+    
+    $scope.socket.on('msg', function(msg) {
+        console.log('msg: ' + msg);
+        $scope.showToast(msg);
+    })
 }]);
 
 
