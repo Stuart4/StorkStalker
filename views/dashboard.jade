@@ -3,7 +3,7 @@ html(lang='en', ng-app='StorkStalker')
         link(rel='stylesheet', href='//ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.css')
         link(rel='stylesheet', href='/stylesheets/dashboard.css')
         meta(name="viewport" content="width=device-width, initial-scale=1")
-    body(layout='row', ng-controller='AppCtrl')
+    body(layout='row', ng-controller='AppCtrl' ng-cloak)
         md-sidenav.md-sidenav-left.md-whiteframe-z2(layout='column', md-component-id='left', md-is-locked-open="$mdMedia('gt-md')")
             md-toolbar.md-tall.md-hue-2
                 span(flex='')
@@ -30,7 +30,7 @@ html(lang='en', ng-app='StorkStalker')
                             .inset
                                 | {{item.title}}
         .relative(layout='column', layout-fill='', role='main')
-            md-button.md-fab.md-fab-bottom-right(aria-label='Add', ng-click='showAdd($event)')
+            md-button.md-fab.md-fab-bottom-right(aria-label='Add', ng-click='showAdd($event)' ng-show="doneLoading()")
                 ng-md-icon(icon='add')
             md-toolbar(ng-show='!showSearch')
                 .md-toolbar-tools
@@ -65,73 +65,78 @@ html(lang='en', ng-app='StorkStalker')
                 ui-view(layout='column', layout-fill='', layout-padding='')
                     .inset(hide-sm='')
                     ng-switch.tabpanel-container(on='data.selectedIndex')
-                        #tab1-content(role='tabpanel', aria-labelledby='tab1', ng-switch-when='0', md-swipe-left='next()', md-swipe-right='previous()', layout='row', layout-align='center center')
-                            md-card(flex-gt-sm='90', flex-gt-md='80')
-                                md-card-content
-                                    h2 Packages
-                                    md-list
-                                        md-item(ng-repeat='item in packages | filter:search')
-                                            md-item-content(ng-click='showPackage($event, item)')
-                                                .md-tile-left.inset(hide-sm='')
-                                                    user-avatar
-                                                .md-tile-content(md-ink-ripple='', ng-click='null')
-                                                    h3 {{item.tracking_code}}
-                                                    h4 {{item.carrier}} {{item.est_delivery_date}}
-                                                    p
-                                                        | {{item.details}}
-                                            md-divider(md-inset='', hide-sm='', ng-if='!$last')
-                                            md-divider(hide-gt-sm='', ng-if='!$last')
-                                        md-divider
-                                        md-item.inset(layout='')
-                                            md-button.md-primary(layout='', layout-align='start center', flex='')
-                                                svg(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewbox='0 0 24 24')
-                                                    path(d='M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z')
-                                                |  More
-                        #tab2-content(role='tabpanel', aria-labelledby='tab2', ng-switch-when='1', md-swipe-left='next()', md-swipe-right='previous()', layout='row', layout-align='center center')
-                            md-card(flex-gt-sm='90', flex-gt-md='80')
-                                md-card-content
-                                    h2 Packages
-                                    md-list
-                                        md-item(ng-repeat="item in packages | filter:search | orderBy:'-date'")
-                                            md-item-content
-                                                .md-tile-left.inset(hide-sm='')
-                                                    user-avatar
-                                                .md-tile-content(md-ink-ripple='', ng-click='null')
-                                                    h3 {{item.name}}
-                                                    h4 {{item.carrier}} {{item.expected}}
-                                                    p
-                                                        | {{item.details}}
-                                            md-divider(md-inset='', hide-sm='', ng-if='!$last')
-                                            md-divider(hide-gt-sm='', ng-if='!$last')
-                                        md-divider
-                                        md-item.inset(layout='')
-                                            md-button.md-primary(layout='', layout-align='start center', flex='')
-                                                svg(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewbox='0 0 24 24')
-                                                    path(d='M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z')
-                                                |  More
-                        #tab3-content(role='tabpanel', aria-labelledby='tab3', ng-switch-when='2',
-                        md-swipe-left='next()', md-swipe-right='previous()', layout='row', layout-align='center center')
-                            md-card(flex-gt-sm='90', flex-gt-md='80')
-                                md-card-content
-                                    h2 Packages
-                                    md-list
-                                        md-item(ng-repeat='item in packages | filter:search')
-                                            md-item-content(ng-click='showPackage($event, item)')
-                                                .md-tile-left.inset(hide-sm='')
-                                                    user-avatar
-                                                .md-tile-content(md-ink-ripple='', ng-click='null')
-                                                    h3 {{item.name}}
-                                                    h4 {{item.carrier}} {{item.expected}}
-                                                    p
-                                                        | {{item.details}}
-                                            md-divider(md-inset='', hide-sm='', ng-if='!$last')
-                                            md-divider(hide-gt-sm='', ng-if='!$last')
-                                        md-divider
-                                        md-item.inset(layout='')
-                                            md-button.md-primary(layout='', layout-align='start center', flex='')
-                                                svg(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewbox='0 0 24 24')
-                                                    path(d='M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z')
-                                                |  More
+                        span(ng-show="!doneLoading()")
+                            //loading
+                            div(layout="layout" layout-sm="column" layout-align="center center")
+                                md-progress-circular(md-mode="indeterminate")
+                        span(ng-show="doneLoading()")
+                            #tab1-content(role='tabpanel', aria-labelledby='tab1', ng-switch-when='0', md-swipe-left='next()', md-swipe-right='previous()', layout='row', layout-align='center center')
+                                md-card(flex-gt-sm='90', flex-gt-md='80')
+                                    md-card-content
+                                        h2 Packages
+                                        md-list
+                                            md-item(ng-repeat='item in packages | filter:search')
+                                                md-item-content(ng-click='showPackage($event, item)')
+                                                    .md-tile-left.inset(hide-sm='')
+                                                        user-avatar
+                                                    .md-tile-content(md-ink-ripple='', ng-click='null')
+                                                        h3 {{item.tracking_code}}
+                                                        h4 {{item.carrier}} {{item.est_delivery_date}}
+                                                        p
+                                                            | {{item.details}}
+                                                md-divider(md-inset='', hide-sm='', ng-if='!$last')
+                                                md-divider(hide-gt-sm='', ng-if='!$last')
+                                            md-divider
+                                            md-item.inset(layout='')
+                                                md-button.md-primary(layout='', layout-align='start center', flex='')
+                                                    svg(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewbox='0 0 24 24')
+                                                        path(d='M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z')
+                                                    |  More
+                            #tab2-content(role='tabpanel', aria-labelledby='tab2', ng-switch-when='1', md-swipe-left='next()', md-swipe-right='previous()', layout='row', layout-align='center center')
+                                md-card(flex-gt-sm='90', flex-gt-md='80')
+                                    md-card-content
+                                        h2 Packages
+                                        md-list
+                                            md-item(ng-repeat="item in packages | filter:search | orderBy:'-date'")
+                                                md-item-content
+                                                    .md-tile-left.inset(hide-sm='')
+                                                        user-avatar
+                                                    .md-tile-content(md-ink-ripple='', ng-click='null')
+                                                        h3 {{item.name}}
+                                                        h4 {{item.carrier}} {{item.expected}}
+                                                        p
+                                                            | {{item.details}}
+                                                md-divider(md-inset='', hide-sm='', ng-if='!$last')
+                                                md-divider(hide-gt-sm='', ng-if='!$last')
+                                            md-divider
+                                            md-item.inset(layout='')
+                                                md-button.md-primary(layout='', layout-align='start center', flex='')
+                                                    svg(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewbox='0 0 24 24')
+                                                        path(d='M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z')
+                                                    |  More
+                            #tab3-content(role='tabpanel', aria-labelledby='tab3', ng-switch-when='2',
+                            md-swipe-left='next()', md-swipe-right='previous()', layout='row', layout-align='center center')
+                                md-card(flex-gt-sm='90', flex-gt-md='80')
+                                    md-card-content
+                                        h2 Packages
+                                        md-list
+                                            md-item(ng-repeat='item in packages | filter:search')
+                                                md-item-content(ng-click='showPackage($event, item)')
+                                                    .md-tile-left.inset(hide-sm='')
+                                                        user-avatar
+                                                    .md-tile-content(md-ink-ripple='', ng-click='null')
+                                                        h3 {{item.name}}
+                                                        h4 {{item.carrier}} {{item.expected}}
+                                                        p
+                                                            | {{item.details}}
+                                                md-divider(md-inset='', hide-sm='', ng-if='!$last')
+                                                md-divider(hide-gt-sm='', ng-if='!$last')
+                                            md-divider
+                                            md-item.inset(layout='')
+                                                md-button.md-primary(layout='', layout-align='start center', flex='')
+                                                    svg(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewbox='0 0 24 24')
+                                                        path(d='M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z')
+                                                    |  More
         // Dependencies
         script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js')
         script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.min.js')

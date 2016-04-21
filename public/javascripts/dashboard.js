@@ -20,6 +20,11 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
         title: 'Settings',
         icon: 'settings'
     }];
+    $scope.socketConnected = false;
+    $scope.dataLoaded = false;
+    $scope.doneLoading = function() {
+        return $scope.socketConnected && $scope.dataLoaded;
+    };
     $scope.updatePackages = function() {
         $http({
             url: '/tracking',
@@ -29,6 +34,8 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
             }
         }).then(function (response) {
             $scope.packages = response.data;
+            $scope.dataLoaded = true;
+            console.log('loaded data');
         });
     };
     $scope.updatePackages();
@@ -104,6 +111,10 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     };
     $scope.socket = io();
     $scope.socket.emit('uid', $scope.user.uid);
+    $scope.socket.on('connect', function() {
+        console.log('connected to socket');
+        $scope.socketConnected = true;
+    });
     
     $scope.socket.on('update', function() {
         $scope.updatePackages();
