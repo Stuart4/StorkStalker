@@ -1,3 +1,16 @@
+.bg_blue {
+  background: #1EAAF1; }
+
+.bg_red {
+  background: red; }
+
+.bg_yellow {
+  background: yellow; }
+
+.square {
+  width: 3em;
+  height: 3em; }
+
 md-content.md-default-theme {
   background-color: #eee; }
 

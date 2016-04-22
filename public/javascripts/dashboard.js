@@ -16,11 +16,9 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
         icon: 'dashboard' }
     ];
     $scope.admin = [
-        { link: 'showListBottomSheet($event)',
-        title: 'Settings',
+        {title: 'Settings',
         icon: 'settings'},
-        { link: '',
-            title: 'Sign Out',
+        {title: 'Sign Out',
             icon: 'exit_to_app'
         }
     ];
@@ -92,6 +90,83 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 '       Add ' +
                 '   </md-button>' +
                 '</div>' +
+                '</md-dialog>',
+                targetEvent: ev
+            })
+            .then(function(answer) {
+                $http({
+                    url: '/tracking',
+                    method: 'POST',
+                    data: {
+                        'tracking_code': answer.number,
+                        'uid': $scope.user.uid,
+                        'description': answer.description
+                    }
+                });
+            }, function() {
+                //user cancelled
+            });
+    };
+
+    $scope.showSettings = function(ev) {
+        $mdDialog.show({
+                controller: DialogController,
+                template:
+                '<md-dialog aria-label="Mango (Fruit)">' +
+                '<md-content class="md-padding">' +
+                '   <form name="settingsForm">' +
+                '       <div>' +
+                '           <p>Choose Accent Color</p>' +
+                '       </div>' +
+                '       <span layout="row" layout-align="space-around">' +
+                '       <div class="square bg_blue" ng-click=answer(1)></div>' +
+                '       <div class="square bg_red"></div>' +
+                '       <div class="square bg_yellow"></div>' +
+                '       </span>' +
+                '   </form>' +
+                /*'</md-content>' +
+                '<div class="md-actions" layout="row">' +
+                '   <span flex>' +
+                '   </span>' +
+                '   <md-button ng-click="answer()"> Cancel </md-button>' +
+                '   <md-button ng-click="answer(package)" class="md-primary">' +
+                '       Add ' +
+                '   </md-button>' +
+                '</div>' +*/
+                '</md-dialog>',
+                targetEvent: ev
+            })
+            .then(function(answer) {
+                console.log(answer);
+            }, function() {
+                //user cancelled
+            });
+    };
+
+    $scope.setAccentColor = function(color) {
+       console.log(color)
+    };
+
+    $scope.logOut = function(ev) {
+        $mdDialog.show({
+                controller: DialogController,
+                template:
+                '<md-dialog aria-label="Mango (Fruit)">' +
+                '<md-content class="md-padding">' +
+                '   <form name="logOutForm">' +
+                '       <div>' +
+                '           <p>Not Implemented</p>' +
+                '       </div>' +
+                '   </form>' +
+                /*'</md-content>' +
+                '<div class="md-actions" layout="row">' +
+                '   <span flex>' +
+                '   </span>' +
+                '   <md-button ng-click="answer()"> Cancel </md-button>' +
+                '   <md-button ng-click="answer(package)" class="md-primary">' +
+                '       Add ' +
+                '   </md-button>' +
+                '</div>' +*/
                 '</md-dialog>',
                 targetEvent: ev
             })

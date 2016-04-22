@@ -13,22 +13,29 @@ html(lang='en', ng-app='StorkStalker')
                     div {{user.first}} {{user.last}}
                     div {{user.email}}
             md-list
-                md-item(ng-repeat='item in menu')
+                md-item
                     a
                         md-item-content(md-ink-ripple='', layout='row', layout-align='start center')
                             .inset
-                                ng-md-icon(icon='{{item.icon}}')
+                                ng-md-icon(icon='{{menu[0].icon}}')
                             .inset
-                                | {{item.title}}
+                                | {{menu[0].title}}
                 md-divider
                 md-subheader Management
-                md-item(ng-repeat='item in admin')
+                md-item
                     a
-                        md-item-content(md-ink-ripple='', layout='row', layout-align='start center')
+                        md-item-content(ng-click='showSettings(event)', md-ink-ripple='', layout='row', layout-align='start center')
                             .inset
-                                ng-md-icon(icon='{{item.icon}}')
+                                ng-md-icon(icon='{{admin[0].icon}}')
                             .inset
-                                | {{item.title}}
+                                | {{admin[0].title}}
+                md-item
+                    a
+                        md-item-content(ng-click='logOut(event)', md-ink-ripple='', layout='row', layout-align='start center')
+                            .inset
+                                ng-md-icon(icon='{{admin[1].icon}}')
+                            .inset
+                                | {{admin[1].title}}
         .relative(layout='column', layout-fill='', role='main')
             md-button.md-fab.md-fab-bottom-right(aria-label='Add', ng-click='showAdd($event)' ng-show="doneLoading()")
                 ng-md-icon(icon='add')
