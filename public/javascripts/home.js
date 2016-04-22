@@ -74,6 +74,17 @@ app.controller('AppCtrl',['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog',
                 clickOutsideToClose: true
             });
     };
+    var iOS = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/.test(navigator.platform);
+    if( iOS ) {
+        $('.fade-in-video').remove();
+    }
+    $('#card')
+        .one("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
+        function(e) {
+            var video = $('video');
+            video.get(0).play();
+            video.addClass('is-playing');
+        });
 }]);
 
 function DialogController($scope, $mdDialog) {
@@ -89,3 +100,4 @@ function DialogController($scope, $mdDialog) {
         $mdDialog.hide(answer);
     };
 }
+
