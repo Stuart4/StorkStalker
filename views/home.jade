@@ -2,12 +2,15 @@ doctype html
 html(lang='en')
   head
     link(rel='stylesheet', href='//ajax.googleapis.com/ajax/libs/angular_material/1.0.7/angular-material.min.css')
+    link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css')
     link(rel='stylesheet', href='/stylesheets/home.css')
+    meta(name="viewport" content="width=device-width, initial-scale=1")
   body(ng-app='MyApp')
     div(ng-app='MyApp', ng-controller='AppCtrl')
       md-toolbar.above(style='background-color: white', layout='row', layout-align='space-around center')
         div
-          h1(style="color: royalblue; font-family: 'Roboto', sans-serif; padding-left: 3%") StorkStalker
+          h1(style="color: royalblue; font-family: 'Roboto', sans-serif")
+            | StorkStalker
         div
         div
         div
@@ -17,7 +20,7 @@ html(lang='en')
             md-button(style="font-family: 'Roboto', sans-serif; color: royalblue; font-size: medium" ng-click="showAbout($event)")
               | About Us
       div(layout='column', layout-align='center center')
-        .card.card-4.md-padding
+        .card.card-4.md-padding.animated.slideInDown
           md-toolbar(style='background-color: white', layout='row', layout-align='center')
             div(layout='row', layout-align='center center')
               img.above(src='/images/Stork_Icon_Blue.svg', width='25%', height='25%')
@@ -32,13 +35,15 @@ html(lang='en')
             br
             br
             md-button.md-raised(style='background-color: royalblue; color: white; font-weight: bold', ng-click='showSignUp($event)') Sign Up
-        h1.above(style='color: white; font-size: xx-large; font-weight: bold', align='center') Taking Package Tracking to New Heights
-    video#video-background(autoplay='', loop='', poster='/images/cloud_art_background.png', muted='')
-      source(src='http://assets.aspiration.com/videos/homepage/cloud_loop_short.mp4', type='video/mp4')
+        h1.above.animated.slideInUp(style='color: white; font-size: xx-large; font-weight: bold', align='center')
+          |Taking Package Tracking to New Heights
+    video#video-background(autoplay='', loop='', poster='/images/cloud_loop_poster.png')
+      source(src='images/cloud_loop_short.mp4', type='video/mp4')
 // Dependencies
 script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js')
 script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js')
 script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js')
+script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-cookies.min.js')
 script(src='//ajax.googleapis.com/ajax/libs/angular_material/1.0.7/angular-material.min.js')
 script(src='//cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js')
 script(src='/javascripts/home.js')

@@ -1,14 +1,15 @@
-var app = angular.module('StorkStalker', ['ngMaterial', 'ngMdIcons']);
+var app = angular.module('StorkStalker', ['ngMaterial', 'ngMdIcons', 'ngCookies']);
 
-app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog', '$http', '$mdToast', function($scope, $mdBottomSheet, $mdSidenav, $mdDialog, $http, $mdToast) {
+app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog', '$http', '$mdToast', '$cookies', '$window', function($scope, $mdBottomSheet, $mdSidenav, $mdDialog, $http, $mdToast, $cookies, $window) {
+    var uid = $cookies.get('uid');
     $scope.toggleSidenav = function(menuId) {
         $mdSidenav(menuId).toggle();
     };
     $scope.user = {
-        first: 'Jacob',
-        last: 'Stuart',
-        email: 'stuart4@purdue.edu',
-        uid: 787
+        first: '',
+        last: '',
+        email: '',
+        uid: uid
     };
     $scope.menu = [
         { link: '',
@@ -22,10 +23,11 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
             icon: 'exit_to_app'
         }
     ];
-    $scope.socketConnected = false;
-    $scope.dataLoaded = false;
+    var socketConnected = false;
+    var dataLoaded = false;
+    var userLoaded = false;
     $scope.doneLoading = function() {
-        return $scope.socketConnected && $scope.dataLoaded;
+        return socketConnected && dataLoaded && userLoaded;
     };
     $scope.updatePackages = function() {
         $http({
@@ -36,10 +38,33 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
             }
         }).then(function (response) {
             $scope.packages = response.data;
-            $scope.dataLoaded = true;
+            dataLoaded = true;
             console.log('loaded data');
+            $window.triggerHandler('resize');
         });
     };
+    $scope.updatePackages();
+    $scope.updateUser = function() {
+        $http({
+            url: '/user_info',
+            method: 'GET',
+            params: {
+                'uid': $scope.user.uid
+            }
+        }).then(function (response) {
+            if (response.data == 'fail') {
+                $scope.logOut();
+            } else {
+                $scope.user.email = response.data.email;
+                $scope.user.first = response.data.first;
+                $scope.user.last = response.data.last;
+                userLoaded = true;
+                console.log('loaded user');
+                $window.triggerHandler('resize');
+            }
+        });
+    };
+    $scope.updateUser();
     $scope.showToast = function(msg) {
         $mdToast.show(
             $mdToast.simple()
@@ -48,7 +73,6 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 .hideDelay(4000)
         );
     };
-    $scope.updatePackages();
     
     $scope.alert = '';
 
@@ -147,42 +171,9 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
        console.log(color)
     };
 
-    $scope.logOut = function(ev) {
-        $mdDialog.show({
-                controller: DialogController,
-                template:
-                '<md-dialog aria-label="Mango (Fruit)">' +
-                '<md-content class="md-padding">' +
-                '   <form name="logOutForm">' +
-                '       <div>' +
-                '           <p>Not Implemented</p>' +
-                '       </div>' +
-                '   </form>' +
-                /*'</md-content>' +
-                '<div class="md-actions" layout="row">' +
-                '   <span flex>' +
-                '   </span>' +
-                '   <md-button ng-click="answer()"> Cancel </md-button>' +
-                '   <md-button ng-click="answer(package)" class="md-primary">' +
-                '       Add ' +
-                '   </md-button>' +
-                '</div>' +*/
-                '</md-dialog>',
-                targetEvent: ev
-            })
-            .then(function(answer) {
-                $http({
-                    url: '/tracking',
-                    method: 'POST',
-                    data: {
-                        'tracking_code': answer.number,
-                        'uid': $scope.user.uid,
-                        'description': answer.description
-                    }
-                });
-            }, function() {
-                //user cancelled
-            });
+    $scope.logOut = function() {
+        $cookies.remove('uid');
+        window.location.href = "/";
     };
 
     $scope.showLogin = function() {
@@ -201,7 +192,8 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     
     $scope.socket.on('connect', function() {
         console.log('connected to socket');
-        $scope.socketConnected = true;
+        socketConnected = true;
+        $window.triggerHandler('resize');
     });
     
     $scope.socket.on('update', function() {
@@ -211,7 +203,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     $scope.socket.on('msg', function(msg) {
         console.log('msg: ' + msg);
         $scope.showToast(msg);
-    })
+    });
 }]);
 
 

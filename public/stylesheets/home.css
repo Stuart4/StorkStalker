@@ -33,7 +33,7 @@ video#video-background {
     -moz-transform: translateX(-50%) translateY(-50%);
     -webkit-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
-    background: url(/images/cloud_art_background.png) no-repeat;
+    background: url(/images/cloud_loop_poster.png) no-repeat;
     background-size: cover;
 }
 

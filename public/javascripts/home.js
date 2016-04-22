@@ -1,10 +1,12 @@
 /**
  * Created by saxenar96 on 4/21/16.
  */
-var app = angular.module('MyApp', ['ngMaterial']);
+var app = angular.module('MyApp', ['ngMaterial', 'ngCookies']);
 
-app.controller('AppCtrl',['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog', function($scope, $mdBottomSheet, $mdSidenav, $mdDialog) {
-    console.log('here');
+app.controller('AppCtrl',['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog', '$http', '$cookies', '$mdToast', function($scope, $mdBottomSheet, $mdSidenav, $mdDialog, $http, $cookies, $mdToast) {
+    if ($cookies.get('uid')) {
+        window.location.href = "/dashboard";
+    }
     $scope.showLogin = function (ev) {
         $mdDialog.show({
                 controller: DialogController,
@@ -14,7 +16,23 @@ app.controller('AppCtrl',['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog',
             })
             .then(function (answer) {
                 console.log(answer);
-                window.location.href = "/dashboard";
+                $http({
+                    url: '/users',
+                    method: 'GET',
+                    params: answer
+                }).then(function (response) {
+                    if (response.data == 'fail') {
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('Log in failed, try again.')
+                                .position("top right")
+                                .hideDelay(4000)
+                        );
+                    } else {
+                        $cookies.put('uid', response.data);
+                        window.location.href = "/dashboard";
+                    }
+                });
             }, function () {
                 //Dialog was cancelled
             });
@@ -27,7 +45,23 @@ app.controller('AppCtrl',['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog',
                 clickOutsideToClose: true
             })
             .then(function (answer) {
-                console.log(answer);
+                $http({
+                    url: '/users',
+                    method: 'POST',
+                    data: answer
+                }).then(function (response) {
+                    if (response.data == 'fail') {
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('Sign up failed, try again.')
+                                .position("top right")
+                                .hideDelay(4000)
+                        );
+                    } else {
+                        $cookies.put('uid', response.data);
+                        window.location.href = "/dashboard";
+                    }
+                });
             }, function () {
                 //Dialog was cancelled
             });
