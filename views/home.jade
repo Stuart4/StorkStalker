@@ -19,7 +19,7 @@ html(lang='en')
           div
             md-button(style="font-family: 'Roboto', sans-serif; color: royalblue; font-size: medium" ng-click="showAbout($event)")
               | About Us
-      div(layout='column', layout-align='center center')
+      div#card(layout='column', layout-align='center center')
         .card.card-4.md-padding.animated.slideInDown
           md-toolbar(style='background-color: white', layout='row', layout-align='center')
             div(layout='row', layout-align='center center')
@@ -37,9 +37,11 @@ html(lang='en')
             md-button.md-raised(style='background-color: royalblue; color: white; font-weight: bold', ng-click='showSignUp($event)') Sign Up
         h1.above.animated.slideInUp(style='color: white; font-size: xx-large; font-weight: bold', align='center')
           |Taking Package Tracking to New Heights
-    video#video-background(autoplay='', loop='', poster='/images/cloud_loop_poster.png')
+    video.fade-in-video(loop='', poster='/images/cloud_loop_poster.png')
       source(src='images/cloud_loop_short.mp4', type='video/mp4')
+    div#video-background
 // Dependencies
+script(src='//code.jquery.com/jquery-2.2.3.min.js')
 script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js')
 script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js')
 script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js')

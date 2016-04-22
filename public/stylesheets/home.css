@@ -20,7 +20,7 @@ center {
     z-index: 100;
 }
 
-video#video-background {
+video {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -33,8 +33,32 @@ video#video-background {
     -moz-transform: translateX(-50%) translateY(-50%);
     -webkit-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
+    background-size: cover;
+}
+
+#video-background {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: 0;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
     background: url(/images/cloud_loop_poster.png) no-repeat;
     background-size: cover;
+}
+
+.fade-in-video {
+    opacity: 0;
+    transition: opacity .8s linear;
+}
+.fade-in-video.is-playing {
+    opacity: 1;
 }
 
 .card {
