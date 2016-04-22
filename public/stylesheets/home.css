@@ -44,7 +44,7 @@ video {
     min-height: 100%;
     width: auto;
     height: auto;
-    z-index: 0;
+    z-index: 1;
     -ms-transform: translateX(-50%) translateY(-50%);
     -moz-transform: translateX(-50%) translateY(-50%);
     -webkit-transform: translateX(-50%) translateY(-50%);
@@ -55,7 +55,7 @@ video {
 
 .fade-in-video {
     opacity: 0;
-    transition: opacity .8s linear;
+    transition: opacity 1.5s linear;
 }
 .fade-in-video.is-playing {
     opacity: 1;
