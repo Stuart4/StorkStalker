@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 
 var routes = require('./routes/index');
+var dashboard = require('./routes/dashboard');
 
 //var users = require('./routes/users');
 var tracking = require('./routes/tracking');
@@ -43,6 +44,7 @@ app.use('/', routes);
 //app.use('/users', users);
 app.use('/tracking', tracking.router);
 app.use('/easypost', easypost.router);
+app.use('/dashboard', dashboard);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
