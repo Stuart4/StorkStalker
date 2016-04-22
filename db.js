@@ -39,6 +39,15 @@ var trackingSchema = mongoose.Schema({
 });
 var TrackingModel = mongoose.model('TrackingModel', trackingSchema);
 
+var userSchema = mongoose.Schema({
+    first: String,
+    last: String,
+    email: String,
+    password: String
+});
+var UserModel = mongoose.model('UserModel', userSchema);
+
 module.exports = {
-    TrackingModel: TrackingModel
+    TrackingModel: TrackingModel,
+    UserModel: UserModel
 };

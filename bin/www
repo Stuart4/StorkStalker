@@ -29,6 +29,7 @@ var io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
   socket.on('uid', function(uid) {
+    console.log('user ' + uid + ' connected');
     app.connectSocketToUid(socket, uid);
   });
 });

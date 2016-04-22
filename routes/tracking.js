@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var easypost = require('node-easypost')(process.env.easypost_apikey_testing);
+var easypost = require('node-easypost')(process.env.easypost_apikey_production);
 var db = require('../db');
 var hashmap = require('hashmap');
 

@@ -9,7 +9,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var dashboard = require('./routes/dashboard');
 
-//var users = require('./routes/users');
+var users = require('./routes/users');
 var tracking = require('./routes/tracking');
 
 var connectSocketToUid = function(socket, uid) {
@@ -41,7 +41,7 @@ app.use(require('node-sass-middleware')({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-//app.use('/users', users);
+app.use('/users', users);
 app.use('/tracking', tracking.router);
 app.use('/easypost', easypost.router);
 app.use('/dashboard', dashboard);

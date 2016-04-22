@@ -14,6 +14,7 @@ app.controller('AppCtrl',['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog',
             })
             .then(function (answer) {
                 console.log(answer);
+                window.location.href = "/dashboard";
             }, function () {
                 //Dialog was cancelled
             });
@@ -29,6 +30,14 @@ app.controller('AppCtrl',['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog',
                 console.log(answer);
             }, function () {
                 //Dialog was cancelled
+            });
+    };
+    $scope.showAbout = function (ev) {
+        $mdDialog.show({
+                controller: DialogController,
+                templateUrl: '../Templates/about.html',
+                targetEvent: ev,
+                clickOutsideToClose: true
             });
     };
 }]);
