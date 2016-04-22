@@ -74,7 +74,7 @@ app.controller('AppCtrl',['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog',
                 clickOutsideToClose: true
             });
     };
-    var iOS = /iPad|iPhone|iPod/.test(navigator.platform);
+    var iOS = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/.test(navigator.platform);
     if( iOS ) {
         $('.fade-in-video').remove();
     }
