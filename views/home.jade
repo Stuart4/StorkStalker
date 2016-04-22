@@ -9,7 +9,7 @@ html(lang='en')
     div(ng-app='MyApp', ng-controller='AppCtrl')
       md-toolbar.above(style='background-color: white', layout='row', layout-align='space-around center')
         div
-          h1(style="color: royalblue; font-family: 'Roboto', sans-serif")
+          h1(style="color: #1EAAF1; font-family: 'Roboto', sans-serif")
             | StorkStalker
         div
         div
@@ -17,7 +17,7 @@ html(lang='en')
         div
         span(hide-sm='', hide-xs='')
           div
-            md-button(style="font-family: 'Roboto', sans-serif; color: royalblue; font-size: medium" ng-click="showAbout($event)")
+            md-button(style="font-family: 'Roboto', sans-serif; color: #1EAAF1; font-size: medium" ng-click="showAbout($event)")
               | About Us
       div(layout='column', layout-align='center center')
         .card.card-4.md-padding.animated.slideInDown
@@ -34,10 +34,10 @@ html(lang='en')
             br
             br
             br
-            md-button.md-raised(style='background-color: royalblue; color: white; font-weight: bold', ng-click='showSignUp($event)') Sign Up
+            md-button.md-raised(style='background-color: #1EAAF1; color: white; font-weight: bold', ng-click='showSignUp($event)') Sign Up
         h1.above.animated.slideInUp(style='color: white; font-size: xx-large; font-weight: bold', align='center')
           |Taking Package Tracking to New Heights
-    video#video-background(autoplay='', loop='', poster='/images/cloud_loop_poster.png')
+    video#video-background(autoplay='', loop='', poster='/images/cloud_loop_poster.png', muted='')
       source(src='images/cloud_loop_short.mp4', type='video/mp4')
 // Dependencies
 script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js')
