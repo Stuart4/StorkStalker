@@ -43,6 +43,11 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
             $(window).trigger('resize');
         });
     };
+    
+    $scope.gotoDashboard = function() {
+        window.location.href = "/dashboard";
+
+    };
     $scope.updatePackages();
     $scope.updateUser = function() {
         $http({

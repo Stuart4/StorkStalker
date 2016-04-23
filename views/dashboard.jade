@@ -15,7 +15,7 @@ html(lang='en', ng-app='StorkStalker')
             md-list
                 md-item
                     a
-                        md-item-content(md-ink-ripple='', layout='row', layout-align='start center')
+                        md-item-content(ng-click='gotoDashboard()' md-ink-ripple='', layout='row', layout-align='startcenter')
                             .inset
                                 ng-md-icon(icon='{{menu[0].icon}}')
                             .inset
