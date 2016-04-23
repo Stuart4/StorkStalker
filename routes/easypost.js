@@ -17,7 +17,7 @@ function update(og, update) {
 router.post('/', function(req, res) {
     //update in req.body.result
     var updated = req.body.result;
-    console.log(updated['id']);
+    console.log(updated);
     db.TrackingModel.find({id: updated['id']}, function(err, doc) {
         console.log('got here');
         db.TrackingModel.findByIdAndUpdate(doc['_id'], {$set: updated}, function(err, doc) {

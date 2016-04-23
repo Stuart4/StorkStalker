@@ -40,7 +40,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
             $scope.packages = response.data;
             dataLoaded = true;
             console.log('loaded data');
-            $window.triggerHandler('resize');
+            $(window).trigger('resize');
         });
     };
     $scope.updatePackages();
@@ -60,7 +60,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 $scope.user.last = response.data.last;
                 userLoaded = true;
                 console.log('loaded user');
-                $window.triggerHandler('resize');
+                $(window).trigger('resize');
             }
         });
     };
@@ -193,7 +193,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     $scope.socket.on('connect', function() {
         console.log('connected to socket');
         socketConnected = true;
-        $window.triggerHandler('resize');
+        $(window).trigger('resize');
     });
     
     $scope.socket.on('update', function() {

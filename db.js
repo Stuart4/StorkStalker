@@ -34,7 +34,7 @@ var trackingSchema = mongoose.Schema({
     shipment_id: String,
     carrier: String,
     tracking_details: [trackingDetailsSchema],
-    uid: Number,
+    uid: String,
     description: String
 });
 var TrackingModel = mongoose.model('TrackingModel', trackingSchema);
