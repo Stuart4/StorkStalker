@@ -1,11 +1,11 @@
 .bg_blue {
-  background: #1EAAF1; }
+  background: #2196F3; }
 
 .bg_red {
-  background: red; }
+  background: #F44336; }
 
-.bg_yellow {
-  background: yellow; }
+.bg_teal {
+  background: #009688; }
 
 .square {
   width: 3em;

@@ -148,9 +148,9 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 '           <p>Choose Accent Color</p>' +
                 '       </div>' +
                 '       <span layout="row" layout-align="space-around">' +
-                '       <div class="square bg_blue" ng-click=answer(1)></div>' +
-                '       <div class="square bg_red"></div>' +
-                '       <div class="square bg_yellow"></div>' +
+                '       <div class="square bg_blue" ng-click="answer(&apos;blueTheme&apos;)"></div>' +
+                '       <div class="square bg_red" ng-click="answer(&apos;redTheme&apos;)"></div>' +
+                '       <div class="square bg_teal" ng-click="answer(&apos;tealTheme&apos;)"></div>' +
                 '       </span>' +
                 '   </form>' +
                 /*'</md-content>' +
@@ -166,14 +166,10 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 targetEvent: ev
             })
             .then(function(answer) {
-                console.log(answer);
+                $scope.changeThemes(answer);
             }, function() {
                 //user cancelled
             });
-    };
-
-    $scope.setAccentColor = function(color) {
-       console.log(color)
     };
 
     $scope.logOut = function() {
@@ -209,6 +205,11 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
         console.log('msg: ' + msg);
         $scope.showToast(msg);
     });
+
+    $scope.theme = 'blueTheme';
+    $scope.changeThemes = function(theme) {
+        $scope.theme = theme;
+    };
 }]);
 
 
@@ -244,8 +245,17 @@ app.config(function($mdThemingProvider) {
             'hue-1': '50'
         })
         .accentPalette('pink');
-    $mdThemingProvider.theme('input', 'default')
-        .primaryPalette('grey');
-
+    $mdThemingProvider.theme('redTheme')
+        .primaryPalette('red', {
+            'default': '500',
+            'hue-1': '300'
+        });
+    $mdThemingProvider.theme('tealTheme')
+        .primaryPalette('teal', {
+            'default': '500',
+            'hue-1': '300'
+        });
+    $mdThemingProvider.theme('blueTheme', 'default');
+    $mdThemingProvider.alwaysWatchTheme(true);
 
 });
