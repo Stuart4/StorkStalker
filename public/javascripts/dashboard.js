@@ -142,7 +142,11 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 controller: DialogController,
                 template:
                 '<md-dialog aria-label="Mango (Fruit)">' +
-                '<md-content class="md-padding">' +
+                '<md-content class="md-padding" align="center">' +
+                '   <md-input-container>' +
+                '       <label style="color: black">First Name</label>' +
+                '       <input type="text" ng-model="settings.first">'+
+                '   </md-input-container>' +
                 '   <form name="settingsForm">' +
                 '       <div>' +
                 '           <p>Choose Accent Color</p>' +
@@ -153,20 +157,24 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 '       <div class="square bg_teal" ng-click="answer(&apos;tealTheme&apos;)"></div>' +
                 '       </span>' +
                 '   </form>' +
-                /*'</md-content>' +
-                '<div class="md-actions" layout="row">' +
-                '   <span flex>' +
-                '   </span>' +
-                '   <md-button ng-click="answer()"> Cancel </md-button>' +
-                '   <md-button ng-click="answer(package)" class="md-primary">' +
+                '   <md-button ng-click="answer(settings)" class="md-primary">' +
                 '       Add ' +
                 '   </md-button>' +
-                '</div>' +*/
                 '</md-dialog>',
                 targetEvent: ev
             })
             .then(function(answer) {
-                $scope.changeThemes(answer);
+                if (!(answer.first == undefined ||answer.first == null || answer.first.length <= 0)) {
+                    $http({
+                        url: '/user_info',
+                        method: 'POST',
+                        data: {
+                            first: answer.first,
+                            'uid': $scope.user.uid
+                        }
+                    });
+                }
+                /*$scope.changeThemes(answer);*/
             }, function() {
                 //user cancelled
             });
@@ -199,6 +207,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     
     $scope.socket.on('update', function() {
         $scope.updatePackages();
+        $scope.updateUser();
     });
     
     $scope.socket.on('msg', function(msg) {
