@@ -1,9 +1,24 @@
-var app = angular.module('StorkStalker', ['ngMaterial', 'ngMdIcons', 'ngCookies']);
+var app = angular.module('StorkStalker', ['ngMaterial', 'ngMdIcons', 'ngCookies', 'uiGmapgoogle-maps']);
 
 app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog', '$http', '$mdToast', '$cookies', '$window', function($scope, $mdBottomSheet, $mdSidenav, $mdDialog, $http, $mdToast, $cookies, $window) {
+
     var uid = $cookies.get('uid');
     $scope.toggleSidenav = function(menuId) {
         $mdSidenav(menuId).toggle();
+    };
+    $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+    $scope.changeLocation = function(location) {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({address: location}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                $scope.map.center.latitude = results[0].geometry.location.lat();
+                $scope.map.center.longitude = results[0].geometry.location.lng();
+            } else {
+                $scope.map.center.latitude = 40.4259;
+                $scope.map.center.longitude = 86.9081;
+            }
+
+        });
     };
     $scope.user = {
         first: '',
