@@ -9,7 +9,8 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
         first: '',
         last: '',
         email: '',
-        uid: uid
+        uid: uid,
+        theme:$scope.theme
     };
     $scope.menu = [
         { link: '',
@@ -63,6 +64,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 $scope.user.email = response.data.email;
                 $scope.user.first = response.data.first;
                 $scope.user.last = response.data.last;
+                $scope.theme = response.data.theme;
                 userLoaded = true;
                 console.log('loaded user');
                 $(window).trigger('resize');
@@ -176,7 +178,8 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                         data: {
                             'first': answer.first,
                             'last': answer.last,
-                            'uid': $scope.user.uid
+                            'uid': $scope.user.uid,
+                            'theme': theme
                         }
                     });
                 } else if (!(answer.first == undefined ||answer.first == null || answer.first.length <= 0)) {
@@ -186,7 +189,8 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                         data: {
                             'first': answer.first,
                             'last': $scope.user.last,
-                            'uid': $scope.user.uid
+                            'uid': $scope.user.uid,
+                            'theme': theme
                         }
                     });
                 } else if (!(answer.last == undefined ||answer.last == null || answer.last.length <= 0)) {
@@ -196,12 +200,24 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                         data: {
                             'first': $scope.user.first,
                             'last': answer.last,
-                            'uid': $scope.user.uid
+                            'uid': $scope.user.uid,
+                            'theme': theme
                         }
                     });
                 }
-                if (answer == 'blueTheme' || answer == 'redTheme' || answer == 'tealTheme')
+                if (answer == 'blueTheme' || answer == 'redTheme' || answer == 'tealTheme') {
+                    $http({
+                        url: '/user_info',
+                        method: 'POST',
+                        data: {
+                            'first': $scope.user.first,
+                            'last': $scope.user.last,
+                            'uid': $scope.user.uid,
+                            'theme': answer
+                        }
+                    });
                     $scope.changeThemes(answer);
+                }
             }, function() {
                 //user cancelled
             });

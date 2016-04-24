@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
         if (err || !doc) {
             res.send('fail');
         } else {
-            res.json({first: doc.first, last: doc.last, email: doc.email});
+            res.json({first: doc.first, last: doc.last, email: doc.email, theme: doc.theme});
         }
     });
 });
@@ -21,10 +21,9 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res) {
 
     var uid = req.body.uid;
-    console.log(uid);
-    var first = req.body.first;
     var replacement = {first: req.body.first,
-    last: req.body.last
+        last: req.body.last,
+        theme: req.body.theme
     };
     var conditions = {'_id': uid};
     db.UserModel.findOneAndUpdate(conditions, replacement, {upsert:true}, function(err, doc) {

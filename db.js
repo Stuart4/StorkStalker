@@ -43,7 +43,8 @@ var userSchema = mongoose.Schema({
     first: String,
     last: String,
     email: {type: String, unique: true},
-    password: String
+    password: String,
+    theme: String
 });
 var UserModel = mongoose.model('UserModel', userSchema);
 
