@@ -149,6 +149,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 targetEvent: ev
             })
             .then(function(answer) {
+                var failed = false;
                 if (answer == 'blueTheme' || answer == 'redTheme' || answer == 'tealTheme') {
                     $http({
                         url: '/user_info',
@@ -168,28 +169,63 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                     }
                     if (answer.email == undefined || answer.email == null || answer.email.length <= 0) {
                         answer.email = $scope.user.email;
+                    } else if (!$scope.validateEmail(answer.email)) {
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('Please enter a valid email address')
+                                .position("top right")
+                                .hideDelay(4000)
+                        );
+                        failed = true;
                     }
                     if (answer.password == undefined || answer.password == null || answer.password.length <= 0) {
-                            answer.password = $scope.user.password;
-                    } else if (answer.password != answer.confirmpassword) {
                         answer.password = $scope.user.password;
+                    } else if (answer.confirmpassword == undefined || answer.confirmpassword == null || answer.confirmpassword.length <= 0) {
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('Please confirm password')
+                                .position("top right")
+                                .hideDelay(4000)
+                        );
+                        failed = true;
+                    } else if (answer.password != answer.confirmpassword) {
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('Passwords must match')
+                                .position("top right")
+                                .hideDelay(4000)
+                        );
+                        failed = true;
                     }
 
-                    $http({
-                        url: '/user_info',
-                        method: 'POST',
-                        data: {
-                            'first': answer.first,
-                            'last': answer.last,
-                            'email': answer.email,
-                            'password': answer.password,
-                            'uid': $scope.user.uid
-                        }
-                    });
+                    if (!failed) {
+                        $http({
+                            url: '/user_info',
+                            method: 'POST',
+                            data: {
+                                'first': answer.first,
+                                'last': answer.last,
+                                'email': answer.email,
+                                'password': answer.password,
+                                'uid': $scope.user.uid
+                            }
+                        });
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('Information Updated')
+                                .position("top right")
+                                .hideDelay(4000)
+                        );
+                    }
                 }
             }, function() {
                 //user cancelled
             });
+    };
+
+    $scope.validateEmail = function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
     };
 
     $scope.logOut = function() {

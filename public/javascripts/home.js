@@ -38,6 +38,7 @@ app.controller('AppCtrl',['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog',
             });
     };
     $scope.showSignUp = function (ev) {
+        var failed = false;
         $mdDialog.show({
                 controller: DialogController,
                 templateUrl: '../Templates/signup.html',
@@ -45,34 +46,50 @@ app.controller('AppCtrl',['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog',
                 clickOutsideToClose: true
             })
             .then(function (answer) {
-                $http({
-                    url: '/users',
-                    method: 'POST',
-                    data: answer
-                }).then(function (response) {
-                    if (response.data == 'fail') {
-                        $mdToast.show(
-                            $mdToast.simple()
-                                .content('Sign up failed, try again.')
-                                .position("top right")
-                                .hideDelay(4000)
-                        );
-                    } else {
-                        $cookies.put('uid', response.data);
-                        window.location.href = "/dashboard";
-                    }
-                });
+                // Validation checks
+                if (!$scope.validateEmail(answer.email)) {
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Please enter a valid email address')
+                            .position("top right")
+                            .hideDelay(4000)
+                    );
+                    failed = true;
+                }
+                if (!failed) {
+                    $http({
+                        url: '/users',
+                        method: 'POST',
+                        data: answer
+                    }).then(function (response) {
+                        if (response.data == 'fail') {
+                            $mdToast.show(
+                                $mdToast.simple()
+                                    .content('Sign up failed, try again.')
+                                    .position("top right")
+                                    .hideDelay(4000)
+                            );
+                        } else {
+                            $cookies.put('uid', response.data);
+                            window.location.href = "/dashboard";
+                        }
+                    });
+                }
             }, function () {
                 //Dialog was cancelled
             });
     };
     $scope.showAbout = function (ev) {
         $mdDialog.show({
-                controller: DialogController,
-                templateUrl: '../Templates/about.html',
-                targetEvent: ev,
-                clickOutsideToClose: true
-            });
+            controller: DialogController,
+            templateUrl: '../Templates/about.html',
+            targetEvent: ev,
+            clickOutsideToClose: true
+        });
+    };
+    $scope.validateEmail = function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
     };
     var mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/.test(navigator.platform);
     if(mobile) {
@@ -80,11 +97,11 @@ app.controller('AppCtrl',['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog',
     }
     $('#card')
         .one("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
-        function(e) {
-            var video = $('video');
-            video.get(0).play();
-            video.addClass('is-playing');
-        });
+            function(e) {
+                var video = $('video');
+                video.get(0).play();
+                video.addClass('is-playing');
+            });
 }]);
 
 function DialogController($scope, $mdDialog) {
