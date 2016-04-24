@@ -25,7 +25,7 @@ html(lang='en')
             div(layout='row', layout-align='center center')
               img.above(src='/images/Stork_Icon_Blue_2196F3.svg', width='25%', height='25%')
           md-content.md-padding(align='center')
-            md-button.md-raised(style='background-color: orange; color: white; font-weight: bold', ng-click='showLogin($event)') Login
+            md-button.md-raised(style='background-color: orange; color: white; font-weight: bold', ng-click='showLogin($event)') Log In
             br
             br
             br
@@ -38,7 +38,7 @@ html(lang='en')
         h1.above.animated.slideInUp(style='color: white; font-size: xx-large; font-weight: bold', align='center')
           |Taking Package Tracking to New Heights
     div#video-background
-    video.fade-in-video(loop='', poster='/images/cloud_loop_poster.png', muted='')
+    video.fade-in-video(loop muted)
       source(src='images/cloud_loop_short.mp4', type='video/mp4')
 // Dependencies
 script(src='//code.jquery.com/jquery-2.2.3.min.js')
