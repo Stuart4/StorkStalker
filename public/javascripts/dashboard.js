@@ -66,6 +66,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 $scope.user.first = response.data.first;
                 $scope.user.last = response.data.last;
                 $scope.user.password = response.data.password;
+                $scope.user.theme = response.data.theme;
                 $scope.theme = response.data.theme;
                 userLoaded = true;
                 console.log('loaded user');
@@ -165,20 +166,24 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                     if (answer.last == undefined || answer.last == null || answer.last.length <= 0) {
                         answer.last = $scope.user.last;
                     }
+                    if (answer.email == undefined || answer.email == null || answer.email.length <= 0) {
+                        answer.email = $scope.user.email;
+                    }
                     if (answer.password == undefined || answer.password == null || answer.password.length <= 0) {
                             answer.password = $scope.user.password;
+                    } else if (answer.password != answer.confirmpassword) {
+                        answer.password = $scope.user.password;
                     }
 
-                    console.log(answer.first + ' ' + answer.last + ' ' + $scope.user.password + ' ' + $scope.user.uid + ' ' + $scope.user.theme);
                     $http({
                         url: '/user_info',
                         method: 'POST',
                         data: {
                             'first': answer.first,
                             'last': answer.last,
+                            'email': answer.email,
                             'password': answer.password,
-                            'uid': $scope.user.uid,
-                            'theme': $scope.user.theme
+                            'uid': $scope.user.uid
                         }
                     });
                 }
