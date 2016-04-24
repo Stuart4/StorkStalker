@@ -5,6 +5,20 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+/* Start of shit going down*/
+var hashmap = require('hashmap');
+
+var uidToSocketMap = new hashmap.HashMap();
+
+var connectSocketToUid = function (socket, uid) {
+  uidToSocketMap.set(uid, socket);
+};
+
+var getSocketFromUid = function(uid) {
+  return uidToSocketMap.get(uid);
+};
+    
+/* End of shit going down*/
 
 var routes = require('./routes/index');
 var dashboard = require('./routes/dashboard');
@@ -12,9 +26,15 @@ var user_info = require('./routes/user_info');
 var users = require('./routes/users');
 var tracking = require('./routes/tracking');
 
+user_info.setConnectSocketToUid(connectSocketToUid);
+user_info.setGetSocketFromUid(getSocketFromUid);
+tracking.setConnectSocketToUid(connectSocketToUid);
+tracking.setGetSocketFromUid(getSocketFromUid);
+/*
 var connectSocketToUid = function(socket, uid) {
   tracking.connectSocketToUid(socket, uid);
 };
+*/
 
 var easypost = require('./routes/easypost');
 easypost.hashMap = tracking.hashMap;
@@ -45,7 +65,7 @@ app.use('/users', users);
 app.use('/tracking', tracking.router);
 app.use('/easypost', easypost.router);
 app.use('/dashboard', dashboard);
-app.use('/user_info', user_info);
+app.use('/user_info', user_info.router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

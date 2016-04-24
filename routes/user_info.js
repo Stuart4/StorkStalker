@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../db');
-var hashmap = require('hashmap');
-
-var uidToSocketMap = new hashmap.HashMap();
+var getSocketFromUid;
+var connectSocketToUid;
 
 /* GET user info. */
 router.get('/', function(req, res, next) {
@@ -24,13 +23,30 @@ router.post('/', function(req, res) {
     var uid = req.body.uid;
     console.log(uid);
     var first = req.body.first;
+    var replacement = {first: req.body.first,
+    last: req.body.last
+    };
     var conditions = {'_id': uid};
-    db.UserModel.findOneAndUpdate(conditions, {first: req.body.first}, {upsert:true}, function(err, doc) {
+    db.UserModel.findOneAndUpdate(conditions, replacement, {upsert:true}, function(err, doc) {
         if (err) {
             console.log(err);
             return res.send(err);
         }
+        var sock = getSocketFromUid(uid);
+        sock.emit('update');
         return res.send("Update success");
     });
 });
-module.exports = router;
+
+var setGetSocketFromUid = function(func) {
+  getSocketFromUid = func;
+};
+
+var setConnectSocketToUid = function(func) {
+  connectSocketToUid = func;
+};
+module.exports = {
+    router: router,
+    setGetSocketFromUid: setGetSocketFromUid,
+    setConnectSocketToUid: setConnectSocketToUid
+};

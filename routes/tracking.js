@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 var easypost = require('node-easypost')(process.env.easypost_apikey_production);
 var db = require('../db');
-var hashmap = require('hashmap');
 
-var uidToSocketMap = new hashmap.HashMap();
+var getSocketFromUid;
+var connectSocketToUid;
 
 
 /* POST new tracking with uid and tracking_code. */
@@ -16,7 +16,7 @@ router.post('/', function(req, res) {
 
         child.save(function (err) {
             if (err) throw err;
-            var sock = uidToSocketMap.get(req.body.uid);
+            var sock = getSocketFromUid(req.body.uid);
             sock.emit('update');
         });
 
@@ -30,13 +30,17 @@ router.get('/', function(req, res) {
     })
 });
 
-var connectSocketToUid = function (socket, uid) {
-    uidToSocketMap.set(uid, socket);
+
+var setGetSocketFromUid = function(func) {
+    getSocketFromUid = func;
 };
 
+var setConnectSocketToUid = function(func) {
+    connectSocketToUid = func;
+};
 
 module.exports = {
     router: router,
-    connectSocketToUid: connectSocketToUid,
-    hashmap: uidToSocketMap
+    setGetSocketFromUid: setGetSocketFromUid,
+    setConnectSocketToUid: setConnectSocketToUid
 };

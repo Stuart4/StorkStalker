@@ -144,12 +144,16 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 '<md-dialog aria-label="Mango (Fruit)">' +
                 '<md-content class="md-padding" align="center">' +
                 '   <md-input-container>' +
-                '       <label style="color: black">First Name</label>' +
+                '       <label align="start" style="color: black">New First Name</label>' +
                 '       <input type="text" ng-model="settings.first">'+
+                '   </md-input-container>' +
+                '   <md-input-container>' +
+                '       <label align="start" style="color: black">New Last Name</label>' +
+                '       <input type="text" ng-model="settings.last">'+
                 '   </md-input-container>' +
                 '   <form name="settingsForm">' +
                 '       <div>' +
-                '           <p>Choose Accent Color</p>' +
+                '           <p align="start">Choose Accent Color</p>' +
                 '       </div>' +
                 '       <span layout="row" layout-align="space-around">' +
                 '       <div class="square bg_blue" ng-click="answer(&apos;blueTheme&apos;)"></div>' +
@@ -157,6 +161,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 '       <div class="square bg_teal" ng-click="answer(&apos;tealTheme&apos;)"></div>' +
                 '       </span>' +
                 '   </form>' +
+                '   <md-button ng-click="answer()"> Cancel </md-button>' +
                 '   <md-button ng-click="answer(settings)" class="md-primary">' +
                 '       Add ' +
                 '   </md-button>' +
@@ -164,17 +169,39 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 targetEvent: ev
             })
             .then(function(answer) {
-                if (!(answer.first == undefined ||answer.first == null || answer.first.length <= 0)) {
+                if (!(answer.first == undefined ||answer.first == null || answer.first.length <= 0) && !(answer.last == undefined ||answer.last == null || answer.last.length <= 0)) {
                     $http({
                         url: '/user_info',
                         method: 'POST',
                         data: {
-                            first: answer.first,
+                            'first': answer.first,
+                            'last': answer.last,
+                            'uid': $scope.user.uid
+                        }
+                    });
+                } else if (!(answer.first == undefined ||answer.first == null || answer.first.length <= 0)) {
+                    $http({
+                        url: '/user_info',
+                        method: 'POST',
+                        data: {
+                            'first': answer.first,
+                            'last': $scope.user.last,
+                            'uid': $scope.user.uid
+                        }
+                    });
+                } else if (!(answer.last == undefined ||answer.last == null || answer.last.length <= 0)) {
+                    $http({
+                        url: '/user_info',
+                        method: 'POST',
+                        data: {
+                            'first': $scope.user.first,
+                            'last': answer.last,
                             'uid': $scope.user.uid
                         }
                     });
                 }
-                /*$scope.changeThemes(answer);*/
+                if (answer == 'blueTheme' || answer == 'redTheme' || answer == 'tealTheme')
+                    $scope.changeThemes(answer);
             }, function() {
                 //user cancelled
             });
