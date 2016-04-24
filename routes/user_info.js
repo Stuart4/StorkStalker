@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
         if (err || !doc) {
             res.send('fail');
         } else {
-            res.json({first: doc.first, last: doc.last, email: doc.email, theme: doc.theme});
+            res.json({first: doc.first, last: doc.last, email: doc.email, password: doc.password, theme: doc.theme});
         }
     });
 });
@@ -23,6 +23,7 @@ router.post('/', function(req, res) {
     var uid = req.body.uid;
     var replacement = {first: req.body.first,
         last: req.body.last,
+        password: req.body.password,
         theme: req.body.theme
     };
     var conditions = {'_id': uid};
@@ -38,11 +39,11 @@ router.post('/', function(req, res) {
 });
 
 var setGetSocketFromUid = function(func) {
-  getSocketFromUid = func;
+    getSocketFromUid = func;
 };
 
 var setConnectSocketToUid = function(func) {
-  connectSocketToUid = func;
+    connectSocketToUid = func;
 };
 module.exports = {
     router: router,

@@ -9,17 +9,18 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
         first: '',
         last: '',
         email: '',
+        password: '',
         uid: uid,
         theme:$scope.theme
     };
     $scope.menu = [
         { link: '',
-        title: 'Dashboard',
-        icon: 'dashboard' }
+            title: 'Dashboard',
+            icon: 'dashboard' }
     ];
     $scope.admin = [
         {title: 'Settings',
-        icon: 'settings'},
+            icon: 'settings'},
         {title: 'Sign Out',
             icon: 'exit_to_app'
         }
@@ -44,7 +45,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
             $(window).trigger('resize');
         });
     };
-    
+
     $scope.gotoDashboard = function() {
         window.location.href = "/dashboard";
 
@@ -64,6 +65,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 $scope.user.email = response.data.email;
                 $scope.user.first = response.data.first;
                 $scope.user.last = response.data.last;
+                $scope.user.password = response.data.password;
                 $scope.theme = response.data.theme;
                 userLoaded = true;
                 console.log('loaded user');
@@ -80,7 +82,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 .hideDelay(4000)
         );
     };
-    
+
     $scope.alert = '';
 
     $scope.showPackage = function(ev, package) {
@@ -146,52 +148,39 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 targetEvent: ev
             })
             .then(function(answer) {
-                if (!(answer.first == undefined ||answer.first == null || answer.first.length <= 0) && !(answer.last == undefined ||answer.last == null || answer.last.length <= 0)) {
-                    $http({
-                        url: '/user_info',
-                        method: 'POST',
-                        data: {
-                            'first': answer.first,
-                            'last': answer.last,
-                            'uid': $scope.user.uid,
-                            'theme': theme
-                        }
-                    });
-                } else if (!(answer.first == undefined ||answer.first == null || answer.first.length <= 0)) {
-                    $http({
-                        url: '/user_info',
-                        method: 'POST',
-                        data: {
-                            'first': answer.first,
-                            'last': $scope.user.last,
-                            'uid': $scope.user.uid,
-                            'theme': theme
-                        }
-                    });
-                } else if (!(answer.last == undefined ||answer.last == null || answer.last.length <= 0)) {
-                    $http({
-                        url: '/user_info',
-                        method: 'POST',
-                        data: {
-                            'first': $scope.user.first,
-                            'last': answer.last,
-                            'uid': $scope.user.uid,
-                            'theme': theme
-                        }
-                    });
-                }
                 if (answer == 'blueTheme' || answer == 'redTheme' || answer == 'tealTheme') {
                     $http({
                         url: '/user_info',
                         method: 'POST',
                         data: {
-                            'first': $scope.user.first,
-                            'last': $scope.user.last,
                             'uid': $scope.user.uid,
                             'theme': answer
                         }
                     });
                     $scope.changeThemes(answer);
+                } else {
+                    if (answer.first == undefined || answer.first == null || answer.first.length <= 0) {
+                        answer.first = $scope.user.first;
+                    }
+                    if (answer.last == undefined || answer.last == null || answer.last.length <= 0) {
+                        answer.last = $scope.user.last;
+                    }
+                    if (answer.password == undefined || answer.password == null || answer.password.length <= 0) {
+                            answer.password = $scope.user.password;
+                    }
+
+                    console.log(answer.first + ' ' + answer.last + ' ' + $scope.user.password + ' ' + $scope.user.uid + ' ' + $scope.user.theme);
+                    $http({
+                        url: '/user_info',
+                        method: 'POST',
+                        data: {
+                            'first': answer.first,
+                            'last': answer.last,
+                            'password': answer.password,
+                            'uid': $scope.user.uid,
+                            'theme': $scope.user.theme
+                        }
+                    });
                 }
             }, function() {
                 //user cancelled
@@ -216,18 +205,18 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     };
     $scope.socket = io();
     $scope.socket.emit('uid', $scope.user.uid);
-    
+
     $scope.socket.on('connect', function() {
         console.log('connected to socket');
         socketConnected = true;
         $(window).trigger('resize');
     });
-    
+
     $scope.socket.on('update', function() {
         $scope.updatePackages();
         $scope.updateUser();
     });
-    
+
     $scope.socket.on('msg', function(msg) {
         console.log('msg: ' + msg);
         $scope.showToast(msg);
