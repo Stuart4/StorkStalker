@@ -142,32 +142,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     $scope.showSettings = function(ev) {
         $mdDialog.show({
                 controller: DialogController,
-                template:
-                '<md-dialog aria-label="Mango (Fruit)">' +
-                '<md-content class="md-padding" align="center">' +
-                '   <md-input-container>' +
-                '       <label align="start" style="color: black">New First Name</label>' +
-                '       <input type="text" ng-model="settings.first">'+
-                '   </md-input-container>' +
-                '   <md-input-container>' +
-                '       <label align="start" style="color: black">New Last Name</label>' +
-                '       <input type="text" ng-model="settings.last">'+
-                '   </md-input-container>' +
-                '   <form name="settingsForm">' +
-                '       <div>' +
-                '           <p align="start">Choose Accent Color</p>' +
-                '       </div>' +
-                '       <span layout="row" layout-align="space-around">' +
-                '       <div class="square bg_blue" ng-click="answer(&apos;blueTheme&apos;)"></div>' +
-                '       <div class="square bg_red" ng-click="answer(&apos;redTheme&apos;)"></div>' +
-                '       <div class="square bg_teal" ng-click="answer(&apos;tealTheme&apos;)"></div>' +
-                '       </span>' +
-                '   </form>' +
-                '   <md-button ng-click="answer()"> Cancel </md-button>' +
-                '   <md-button ng-click="answer(settings)" class="md-primary">' +
-                '       Add ' +
-                '   </md-button>' +
-                '</md-dialog>',
+                templateUrl: '../Templates/settings.html',
                 targetEvent: ev
             })
             .then(function(answer) {
