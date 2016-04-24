@@ -1,0 +1,13 @@
+<md-dialog ng-controller='AppCtrl'>
+    <form>
+        <div>
+            <md-content class="'md-padding" style="background-color: white" align="center">
+                <h1> Status: {{ctrl.package.status}} </h1>
+            </md-content>
+            <md-content class="md-padding" style="background-color: white" align="center">
+                <ui-gmap-google-map center="map.center" zoom="map.zoom" style="height: 300px; width: 300px;"></ui-gmap-google-map>
+            </md-content>
+        </div>
+    </form>
+</md-dialog>
+

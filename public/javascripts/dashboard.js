@@ -6,8 +6,9 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     $scope.toggleSidenav = function(menuId) {
         $mdSidenav(menuId).toggle();
     };
-    $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
-    $scope.changeLocation = function(location) {
+    $scope.map = { center: { latitude: 52, longitude: -83 }, zoom: 8 };
+    $scope.changeLocation = function(location, cb) {
+        console.log(location);
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode({address: location}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
@@ -17,7 +18,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                 $scope.map.center.latitude = 40.4259;
                 $scope.map.center.longitude = 86.9081;
             }
-
+            cb();
         });
     };
     $scope.user = {
@@ -97,11 +98,26 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     $scope.alert = '';
 
     $scope.showPackage = function(ev, package) {
-        $mdDialog.show({
-            targetEvent: ev,
-            controller: function () {this.package = package;},
-            controllerAs: 'ctrl',
-            template: '<md-dialog> <h1> {{ctrl.package.status}} </h1> </md-dialog>'
+        console.log($scope.map.center);
+        $scope.changeLocation(package.tracking_details.slice(-1)[0].tracking_location.city + ", " + package.tracking_details.slice(-1)[0].tracking_location.state, function () {
+            console.log($scope.map.center);
+            $mdDialog.show({
+                targetEvent: ev,
+                controller: function () {this.package = package;},
+                controllerAs: 'ctrl',
+                template: "<md-dialog ng-controller='AppCtrl'>" +
+                '               <form>' +
+                '                   <div>' +
+                '                       <md-content>' +
+                '                           <h1> Status: {{ctrl.package.status}} </h1>' +
+                '                      </md-content>' +
+                '                      <md-content class="md-padding" style="background-color: white" align="center">' +
+                '                           <ui-gmap-google-map center="map.center" zoom="map.zoom" style="height: 300px; width: 300px;"></ui-gmap-google-map>' +
+                '                      </md-content>' +
+                '                   </div>' +
+                '               </form>' +
+                '       </md-dialog>'
+            });
         });
     };
 
