@@ -1,5 +1,22 @@
 html(lang='en', ng-app='StorkStalker')
     head
+        script(src='//maps.googleapis.com/maps/api/js?key=AIzaSyBtsIgNApQW5kcDgV9cXjbvnxtdh_cGypA')
+        script(src='//code.jquery.com/jquery-2.2.3.min.js')
+        script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js')
+        script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js')
+        script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js')
+        script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-cookies.min.js')
+        script(src='//ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.js')
+        script(src='//cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js')
+
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js')
+        script(src='https://cdn.rawgit.com/angular-ui/angular-google-maps/master/dist/angular-google-maps.js')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.11.2/lodash.js')
+        script(src='https://cdn.rawgit.com/nmccready/angular-simple-logger/master/dist/angular-simple-logger.js')
+
+        script(src='javascripts/dashboard.js')
+
+
         link(rel='stylesheet', href='//ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.css')
         link(rel='stylesheet', href='/stylesheets/dashboard.css')
         meta(name="viewport" content="width=device-width, initial-scale=1")
@@ -144,13 +161,6 @@ html(lang='en', ng-app='StorkStalker')
                                                     svg(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewbox='0 0 24 24')
                                                         path(d='M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z')
                                                     |  More
+        //ui-gmap-google-map(center='map.center' zoom='map.zoom' style="height: 400px; width: 400px;")
+        //button(ng-click="changeLocation('chICAgo, IL'); changeLocation('chICAgo, IL');")
         // Dependencies
-        script(src='//code.jquery.com/jquery-2.2.3.min.js')
-        script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js')
-        script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js')
-        script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js')
-        script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-cookies.min.js')
-        script(src='//ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.js')
-        script(src='//cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js')
-        script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js')
-        script(src='javascripts/dashboard.js')
