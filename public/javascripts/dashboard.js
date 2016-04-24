@@ -150,7 +150,8 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
             })
             .then(function(answer) {
                 var failed = false;
-                if (answer == 'blueTheme' || answer == 'redTheme' || answer == 'tealTheme') {
+                if (answer == 'purpleTheme' || answer == 'blueTheme' || answer == 'tealTheme' || answer == 'orangeTheme'
+                || answer == 'redTheme' || answer == 'pinkTheme') {
                     $http({
                         url: '/user_info',
                         method: 'POST',
@@ -302,17 +303,33 @@ app.config(function($mdThemingProvider) {
             'hue-1': '50'
         })
         .accentPalette('pink');
-    $mdThemingProvider.theme('redTheme')
-        .primaryPalette('red', {
+    $mdThemingProvider.theme('purpleTheme')
+        .primaryPalette('purple', {
             'default': '500',
-            'hue-1': '300'
+            'hue-1': '700'
         });
+    $mdThemingProvider.theme('blueTheme', 'default');
     $mdThemingProvider.theme('tealTheme')
         .primaryPalette('teal', {
             'default': '500',
             'hue-1': '300'
         });
-    $mdThemingProvider.theme('blueTheme', 'default');
+    $mdThemingProvider.theme('orangeTheme')
+        .primaryPalette('orange', {
+            'default': '500',
+            'hue-1': '800'
+        });
+    $mdThemingProvider.theme('redTheme')
+        .primaryPalette('red', {
+            'default': '500',
+            'hue-1': '300'
+        });
+    $mdThemingProvider.theme('pinkTheme')
+        .primaryPalette('pink', {
+           'default': '500',
+            'hue-1': '400'
+        });
+
     $mdThemingProvider.alwaysWatchTheme(true);
 
 });
