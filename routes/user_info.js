@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
         if (err || !doc) {
             res.send('fail');
         } else {
-            res.json({first: doc.first, last: doc.last, email: doc.email, password: doc.password, theme: doc.theme});
+            res.json({first: doc.first, middle: doc.middle, last: doc.last, email: doc.email, password: doc.password, theme: doc.theme});
         }
     });
 });
@@ -25,6 +25,7 @@ router.post('/', function(req, res) {
     if (req.body.theme == undefined || req.body.theme == null || req.body.theme.length <= 0) {
         replacement = {
             first: req.body.first,
+            middle: req.body.middle,
             last: req.body.last,
             email: req.body.email,
             password: req.body.password

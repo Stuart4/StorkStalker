@@ -10,7 +10,7 @@ html(lang='en', ng-app='StorkStalker')
                 .md-toolbar-tools-bottom.inset(layout='column' ng-show="doneLoading()")
                     user-avatar
                     span
-                    div {{user.first}} {{user.last}}
+                    div {{user.first}}{{user.middle}}{{user.last}}
                     div {{user.email}}
             md-list
                 md-item

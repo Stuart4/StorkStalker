@@ -41,6 +41,7 @@ var TrackingModel = mongoose.model('TrackingModel', trackingSchema);
 
 var userSchema = mongoose.Schema({
     first: String,
+    middle: String,
     last: String,
     email: {type: String, unique: true},
     password: String,

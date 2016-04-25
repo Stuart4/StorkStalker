@@ -7,6 +7,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     };
     $scope.user = {
         first: '',
+        middle: ' ',
         last: '',
         email: '',
         password: '',
@@ -64,6 +65,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
             } else {
                 $scope.user.email = response.data.email;
                 $scope.user.first = response.data.first;
+                $scope.user.middle = response.data.middle;
                 $scope.user.last = response.data.last;
                 $scope.user.password = response.data.password;
                 $scope.user.theme = response.data.theme;
@@ -180,13 +182,36 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                     });
                     $scope.changeThemes(answer);
                 } else {
-                    if (answer.first == undefined || answer.first == null || answer.first.length <= 0) {
+                    if (answer.first == undefined || answer.first == null) {
                         answer.first = $scope.user.first;
+                    } else if (answer.first.length <= 0) {
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('First name cannot be empty')
+                                .position("top right")
+                                .hideDelay(4000)
+                        );
+                        failed = true;
                     }
-                    if (answer.last == undefined || answer.last == null || answer.last.length <= 0) {
+                    if (answer.middle == undefined || answer.middle == null) {
+                        answer.middle = $scope.user.middle;
+                    } else if (answer.middle.length <= 0) {
+                        answer.middle = ' ';
+                    } else {
+                        answer.middle = ' ' + answer.middle + ' ';
+                    }
+                    if (answer.last == undefined || answer.last == null) {
                         answer.last = $scope.user.last;
+                    } else if (answer.last.length == 0) {
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('Last name cannot be empty')
+                                .position("top right")
+                                .hideDelay(4000)
+                        );
+                        failed = true;
                     }
-                    if (answer.email == undefined || answer.email == null || answer.email.length <= 0) {
+                    if (answer.email == undefined || answer.email == null) {
                         answer.email = $scope.user.email;
                     } else if (!$scope.validateEmail(answer.email)) {
                         $mdToast.show(
@@ -223,6 +248,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
                             method: 'POST',
                             data: {
                                 'first': answer.first,
+                                'middle': answer.middle,
                                 'last': answer.last,
                                 'email': answer.email,
                                 'password': answer.password,
