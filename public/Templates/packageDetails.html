@@ -1,0 +1,27 @@
+<md-dialog>
+    <form>
+        <div>
+            <md-toolbar md-theme="{{theme}}">
+                <h2 align="center">Activity Log</h2>
+            </md-toolbar>
+        </div>
+        <div style="overflow-y: auto; max-height:400px">
+        <md-list aria-label="infoList" md-scroll-y="">
+            <div>
+            <md-item ng-repeat="log in ctrl.package.tracking_details">
+                <md-item-content>
+                    <div md-ink-ripple="" ng-click="null" class="md-tile-content">
+                        <h4>Status: {{log.status}}</h4>
+                        <h4>Location: {{log.tracking_location.city}}, {{log.tracking_location.state}}</h4>
+                        <h4>{{log.datetime}}</h4>
+                    </div>
+                </md-item-content>
+                <md-divider md-inset="" hide-sm="" ng-if="!$last"></md-divider>
+                <md-divider hide-gt-sm="" ng-if="!$last"></md-divider>
+            </md-item>
+            <md-divider></md-divider>
+            </div>
+        </md-list>
+        </div>
+    </form>
+</md-dialog>

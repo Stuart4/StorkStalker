@@ -91,7 +91,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
             targetEvent: ev,
             controller: function () {this.package = package;},
             controllerAs: 'ctrl',
-            template: '<md-dialog> <h1> {{ctrl.package.status}} </h1> </md-dialog>'
+            templateUrl: '../Templates/packageDetails.html'
         });
     };
 
