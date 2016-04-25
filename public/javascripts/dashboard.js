@@ -151,7 +151,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
             .then(function(answer) {
                 var failed = false;
                 if (answer == 'purpleTheme' || answer == 'blueTheme' || answer == 'tealTheme' || answer == 'orangeTheme'
-                || answer == 'redTheme' || answer == 'pinkTheme') {
+                || answer == 'redTheme' || answer == 'pinkTheme' || answer == 'greyTheme') {
                     $http({
                         url: '/user_info',
                         method: 'POST',
@@ -302,33 +302,26 @@ app.config(function($mdThemingProvider) {
             'default': '500',
             'hue-1': '50'
         })
-        .accentPalette('pink');
+        .accentPalette('red');
     $mdThemingProvider.theme('purpleTheme')
-        .primaryPalette('purple', {
-            'default': '500',
-            'hue-1': '700'
-        });
+        .primaryPalette('purple')
+        .accentPalette('yellow');
     $mdThemingProvider.theme('blueTheme', 'default');
     $mdThemingProvider.theme('tealTheme')
-        .primaryPalette('teal', {
-            'default': '500',
-            'hue-1': '300'
-        });
+        .primaryPalette('teal')
+        .accentPalette('yellow');
     $mdThemingProvider.theme('orangeTheme')
-        .primaryPalette('orange', {
-            'default': '500',
-            'hue-1': '800'
-        });
+        .primaryPalette('orange')
+        .accentPalette('blue');
     $mdThemingProvider.theme('redTheme')
-        .primaryPalette('red', {
-            'default': '500',
-            'hue-1': '300'
-        });
+        .primaryPalette('red')
+        .accentPalette('blue');
     $mdThemingProvider.theme('pinkTheme')
-        .primaryPalette('pink', {
-           'default': '500',
-            'hue-1': '400'
-        });
+        .primaryPalette('pink')
+        .accentPalette('teal');
+    $mdThemingProvider.theme('greyTheme')
+        .primaryPalette('blue-grey')
+        .accentPalette('green');
 
     $mdThemingProvider.alwaysWatchTheme(true);
 

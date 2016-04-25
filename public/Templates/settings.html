@@ -1,33 +1,37 @@
 <md-dialog aria-label="Settings" flex="">
     <form>
         <md-content class="md-padding">
-            <md-tabs>
+            <md-tabs md-dynamic-height md-border-bottom>
                 <md-tab label="Account Settings">
                     <md-content class="md-padding">
-                        <md-input-container>
-                            <label align="start" style="color: black">New First Name</label>
-                            <input type="text" ng-model="settings.first">
-                        </md-input-container>
-                        <md-input-container>
-                            <label align="start" style="color: black">New Last Name</label>
-                            <input type="text" ng-model="settings.last">
-                        </md-input-container>
-                        <md-input-container>
-                            <label align="start" style="color: black">New Email</label>
-                            <input type="text" ng-model="settings.email">
-                        </md-input-container>
-                        <md-input-container>
-                            <label align="start" style="color: black">New Password</label>
-                            <input type="password" ng-model="settings.password">
-                        </md-input-container>
-                        <md-input-container>
-                            <label align="start" style="color: black">Confirm Password</label>
-                            <input type="password" ng-model="settings.confirmpassword">
-                        </md-input-container>
-                        <md-button class="md-primary" ng-click="answer()"> Cancel </md-button>
-                        <md-button ng-click="answer(settings)" class="md-primary">
-                            Apply
-                        </md-button>
+                        <div layout="column" layout-align="space-around">
+                            <md-input-container>
+                                <label align="start" style="color: black">New First Name</label>
+                                <input type="text" ng-model="settings.first">
+                            </md-input-container>
+                            <md-input-container>
+                                <label align="start" style="color: black">New Last Name</label>
+                                <input type="text" ng-model="settings.last">
+                            </md-input-container>
+                            <md-input-container>
+                                <label align="start" style="color: black">New Email</label>
+                                <input type="text" ng-model="settings.email">
+                            </md-input-container>
+                            <md-input-container>
+                                <label align="start" style="color: black">New Password</label>
+                                <input type="password" ng-model="settings.password">
+                            </md-input-container>
+                            <md-input-container>
+                                <label align="start" style="color: black">Confirm Password</label>
+                                <input type="password" ng-model="settings.confirmpassword">
+                            </md-input-container>
+                        </div>
+                        <div layout="row" layout-align="space-arount">
+                            <md-button class="md-primary" ng-click="answer()"> Cancel </md-button>
+                            <md-button ng-click="answer(settings)" class="md-primary">
+                                Apply
+                            </md-button>
+                        </div>
                     </md-content>
                 </md-tab>
                 <md-tab label="Themes">
@@ -35,14 +39,15 @@
                         <div>
                             <p align="start">Choose Accent Color</p>
                         </div>
-                         <span layout="row" layout-align="space-around">
-                             <div class="square bg_purple" ng-click="answer(&apos;purpleTheme&apos;)"></div>
-                             <div class="square bg_blue" ng-click="answer(&apos;blueTheme&apos;)"></div>
-                             <div class="square bg_teal" ng-click="answer(&apos;tealTheme&apos;)"></div>
-                             <div class="square bg_orange" ng-click="answer(&apos;orangeTheme&apos;)"></div>
-                             <div class="square bg_red" ng-click="answer(&apos;redTheme&apos;)"></div>
-                             <div class="square bg_pink" ng-click="answer(&apos;pinkTheme&apos;)"></div>
-                         </span>
+                        <div layout="row" layout-align="space-around">
+                            <div class="square bg_purple" ng-click="answer(&apos;purpleTheme&apos;)"></div>
+                            <div class="square bg_blue" ng-click="answer(&apos;blueTheme&apos;)"></div>
+                            <div class="square bg_teal" ng-click="answer(&apos;tealTheme&apos;)"></div>
+                            <div class="square bg_orange" ng-click="answer(&apos;orangeTheme&apos;)"></div>
+                            <div class="square bg_red" ng-click="answer(&apos;redTheme&apos;)"></div>
+                            <div class="square bg_pink" ng-click="answer(&apos;pinkTheme&apos;)"></div>
+                            <div class="square bg_grey" ng-click="answer(&apos;greyTheme&apos;)"></div>
+                        </div>
                     </md-content>
                 </md-tab>
         </md-content>
