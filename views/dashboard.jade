@@ -84,8 +84,7 @@ html(lang='en', ng-app='StorkStalker')
                                         md-list
                                             md-item(ng-repeat='item in packages | filter:search')
                                                 md-item-content(ng-click='showPackage($event, item)')
-                                                    .md-tile-left.inset(hide-sm='')
-                                                        user-avatar
+                                                    img(src='/images/package_icon.svg', width='10%', height='7%')
                                                     .md-tile-content(md-ink-ripple='', ng-click='null')
                                                         h3 {{item.description}}
                                                         h4 {{item.carrier}}:  {{item.tracking_code}}
