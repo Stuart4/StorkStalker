@@ -8,7 +8,7 @@
         <div style="overflow-y: auto; max-height:400px">
         <md-list aria-label="infoList" md-scroll-y="">
             <div>
-            <md-item ng-repeat="log in ctrl.package.tracking_details">
+            <md-item ng-repeat="log in ctrl.package.tracking_details | orderBy: '-'">
                 <md-item-content>
                     <div md-ink-ripple="" ng-click="null" class="md-tile-content">
                         <h4>Status: {{log.status}}</h4>
