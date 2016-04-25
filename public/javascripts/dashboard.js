@@ -102,11 +102,23 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     $scope.editDateTime = function (package) {
         var detailArray = package.tracking_details;
         var length = package.tracking_details.length;
+        for (var c = 0; c < length; c++) {
+            var loc = detailArray[c].tracking_location;
+            var x;
+            if (loc.city == undefined || loc.city == null || loc.city.length <= 0) {
+                x = "";
+            }
+            else {
+                x = detailArray[c].tracking_location.city + ", " + detailArray[c].tracking_location.state;
+            }
+            detailArray[c].tracking_location.city = x;
+        }
         for (var i = 0; i < length && (detailArray[i].datetime.indexOf("-") > -1); i++) {
             if (detailArray[i].status.indexOf("_") > -1) {
                 var res = detailArray[i].status.replace(/_/g, " ");
                 detailArray[i].status = res;
             }
+            detailArray[i].status = detailArray[i].status.charAt(0).toUpperCase() + detailArray[i].status.slice(1);
             var oldDateTime = detailArray[i].datetime;
             var splitString = oldDateTime.split('T');
             var date = splitString[0];
@@ -114,7 +126,8 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
             detailArray[i].datetime = dateSplit[1] + "/" + dateSplit[2] + "/" + dateSplit[0] + " at " + splitString[1].substring(0, splitString[1].length-1);
         }
         return detailArray;
-    }
+    };
+
     $scope.showAdd = function(ev) {
         $mdDialog.show({
                 controller: DialogController,
