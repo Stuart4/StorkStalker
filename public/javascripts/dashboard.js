@@ -87,6 +87,8 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     $scope.alert = '';
 
     $scope.showPackage = function(ev, package) {
+        package.tracking_details = $scope.editDateTime(package);
+        console.log(package.tracking_details[0].datetime);
         $mdDialog.show({
             targetEvent: ev,
             controller: function () {this.package = package;},
@@ -95,6 +97,22 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
         });
     };
 
+    $scope.editDateTime = function (package) {
+        var detailArray = package.tracking_details;
+        var length = package.tracking_details.length;
+        for (var i = 0; i < length && (detailArray[i].datetime.indexOf("-") > -1); i++) {
+            if (detailArray[i].status.indexOf("_") > -1) {
+                var res = detailArray[i].status.replace(/_/g, " ");
+                detailArray[i].status = res;
+            }
+            var oldDateTime = detailArray[i].datetime;
+            var splitString = oldDateTime.split('T');
+            var date = splitString[0];
+            var dateSplit = date.split('-');
+            detailArray[i].datetime = dateSplit[1] + "/" + dateSplit[2] + "/" + dateSplit[0] + " at " + splitString[1].substring(0, splitString[1].length-1);
+        }
+        return detailArray;
+    }
     $scope.showAdd = function(ev) {
         $mdDialog.show({
                 controller: DialogController,
