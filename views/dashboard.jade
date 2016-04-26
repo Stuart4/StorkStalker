@@ -57,13 +57,13 @@ html(lang='en', ng-app='StorkStalker')
                         | Delivered
             md-toolbar.md-hue-1(ng-show='showSearch')
                 .md-toolbar-tools
-                    md-button(ng-click='showSearch = !showSearch' aria-label='Back')
+                    md-button(ng-click='searchBack()' aria-label='Back')
                         ng-md-icon(icon='arrow_back')
                     h3(flex='10')
                         | Back
                     md-input-container( flex='')
                         label  
-                        input(ng-model='search.who', placeholder='enter search')
+                        input(placeholder='enter search' ng-model='searchText')
                     md-button(aria-label='Search', ng-click='showSearch = !showSearch')
                         ng-md-icon(icon='search')
                     md-button(aria-label='Open Settings', ng-click='showListBottomSheet($event)')
@@ -82,7 +82,7 @@ html(lang='en', ng-app='StorkStalker')
                                     md-card-content
                                         h2 Packages
                                         md-list
-                                            md-item(ng-repeat='item in packages | filter:search')
+                                            md-item(ng-repeat='item in packages | filter:searchText')
                                                 md-item-content(ng-click='showPackage($event, item)')
                                                     img(src='/images/package_icon.svg', width='10%', height='7%')
                                                     .md-tile-content(md-ink-ripple='', ng-click='null')

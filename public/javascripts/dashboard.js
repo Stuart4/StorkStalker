@@ -5,6 +5,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     $scope.toggleSidenav = function(menuId) {
         $mdSidenav(menuId).toggle();
     };
+    $scope.searchText = '';
     $scope.user = {
         first: '',
         middle: ' ',
@@ -29,8 +30,14 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     var socketConnected = false;
     var dataLoaded = false;
     var userLoaded = false;
+    $scope.showSearch = false;
     $scope.doneLoading = function() {
         return socketConnected && dataLoaded && userLoaded;
+    };
+    $scope.searchBack = function() {
+        
+        $scope.showSearch = !$scope.showSearch;
+        $scope.searchText = '';
     };
     $scope.updatePackages = function() {
         $http({
