@@ -348,25 +348,16 @@ app.directive('userAvatar', function() {
 });
 
 app.config(function($mdThemingProvider) {
-    var customBlueMap = $mdThemingProvider.extendPalette('light-blue', {
-        'contrastDefaultColor': 'light',
-        'contrastDarkColors': ['50'],
-        '50': 'ffffff'
-    });
-    $mdThemingProvider.definePalette('customBlue', customBlueMap);
     $mdThemingProvider.theme('default')
-        .primaryPalette('customBlue', {
-            'default': '500',
-            'hue-1': '50'
-        })
+        .primaryPalette('light-blue')
         .accentPalette('red');
     $mdThemingProvider.theme('purpleTheme')
         .primaryPalette('purple')
-        .accentPalette('yellow');
+        .accentPalette('orange');
     $mdThemingProvider.theme('blueTheme', 'default');
     $mdThemingProvider.theme('tealTheme')
         .primaryPalette('teal')
-        .accentPalette('yellow');
+        .accentPalette('orange');
     $mdThemingProvider.theme('orangeTheme')
         .primaryPalette('orange')
         .accentPalette('blue');
