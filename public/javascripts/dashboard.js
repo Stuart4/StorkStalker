@@ -39,6 +39,16 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
         $scope.showSearch = !$scope.showSearch;
         $scope.searchText = '';
     };
+    $scope.filterDelivered = function(pkg) {
+        if (pkg.status == "delivered") {
+            return pkg;
+        }
+    };
+    $scope.filterUndelivered = function(pkg) {
+        if (pkg.status != "delivered") {
+            return pkg;
+        }
+    };
     $scope.updatePackages = function() {
         $http({
             url: '/tracking',
@@ -96,6 +106,7 @@ app.controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog'
     $scope.alert = '';
 
     $scope.showPackage = function(ev, package) {
+        console.log(package['date']);
         package.tracking_details = $scope.editDateTime(package);
         console.log(package.tracking_details[0].datetime);
         $mdDialog.show({

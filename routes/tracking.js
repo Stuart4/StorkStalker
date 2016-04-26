@@ -12,6 +12,7 @@ router.post('/', function(req, res) {
     easypost.Tracker.create({ 'tracking_code': req.body.tracking_code}, function(err,res) {
         res['uid'] = req.body.uid;
         res['description'] = req.body.description;
+        res['date'] = Date.now();
         var child = new db.TrackingModel(res);
 
         child.save(function (err) {

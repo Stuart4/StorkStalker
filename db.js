@@ -35,7 +35,8 @@ var trackingSchema = mongoose.Schema({
     carrier: String,
     tracking_details: [trackingDetailsSchema],
     uid: String,
-    description: String
+    description: String,
+    date: {type: Date, default: Date.now()}
 });
 var TrackingModel = mongoose.model('TrackingModel', trackingSchema);
 

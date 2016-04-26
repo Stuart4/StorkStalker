@@ -82,7 +82,7 @@ html(lang='en', ng-app='StorkStalker')
                                     md-card-content
                                         h2 Packages
                                         md-list
-                                            md-item(ng-repeat='item in packages | filter:searchText')
+                                            md-item(ng-repeat='item in packages | filter:searchText | orderBy:"-date"')
                                                 md-item-content(ng-click='showPackage($event, item)')
                                                     img(src='/images/package_icon.svg', width='10%', height='7%')
                                                     .md-tile-content(md-ink-ripple='', ng-click='null')
@@ -92,57 +92,38 @@ html(lang='en', ng-app='StorkStalker')
                                                             | {{item.details}}
                                                 md-divider(md-inset='', hide-sm='', ng-if='!$last')
                                                 md-divider(hide-gt-sm='', ng-if='!$last')
-                                            md-divider
-                                            md-item.inset(layout='')
-                                                md-button.md-primary(layout='', layout-align='start center', flex='')
-                                                    svg(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewbox='0 0 24 24')
-                                                        path(d='M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z')
-                                                    |  More
                             #tab2-content(role='tabpanel', aria-labelledby='tab2', ng-switch-when='1', md-swipe-left='next()', md-swipe-right='previous()', layout='row', layout-align='center center')
                                 md-card(flex-gt-sm='90', flex-gt-md='80')
                                     md-card-content
                                         h2 Packages
                                         md-list
-                                            md-item(ng-repeat="item in packages | filter:search | orderBy:'-date'")
-                                                md-item-content
-                                                    .md-tile-left.inset(hide-sm='')
-                                                        user-avatar
+                                            md-item(ng-repeat='item in packages | filter:searchText | orderBy:"-est_delivery_date" | filter:filterUndelivered')
+                                                md-item-content(ng-click='showPackage($event, item)')
+                                                    img(src='/images/package_icon.svg', width='10%', height='7%')
                                                     .md-tile-content(md-ink-ripple='', ng-click='null')
-                                                        h3 {{item.name}}
-                                                        h4 {{item.carrier}} {{item.expected}}
+                                                        h3 {{item.description}}
+                                                        h4 {{item.carrier}}:  {{item.tracking_code}}
                                                         p
                                                             | {{item.details}}
                                                 md-divider(md-inset='', hide-sm='', ng-if='!$last')
                                                 md-divider(hide-gt-sm='', ng-if='!$last')
-                                            md-divider
-                                            md-item.inset(layout='')
-                                                md-button.md-primary(layout='', layout-align='start center', flex='')
-                                                    svg(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewbox='0 0 24 24')
-                                                        path(d='M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z')
-                                                    |  More
                             #tab3-content(role='tabpanel', aria-labelledby='tab3', ng-switch-when='2',
                             md-swipe-left='next()', md-swipe-right='previous()', layout='row', layout-align='center center')
                                 md-card(flex-gt-sm='90', flex-gt-md='80')
                                     md-card-content
                                         h2 Packages
                                         md-list
-                                            md-item(ng-repeat='item in packages | filter:search')
+                                            md-item(ng-repeat='item in packages | filter:searchText | orderBy:"updated_at" | filter:filterDelivered')
                                                 md-item-content(ng-click='showPackage($event, item)')
-                                                    .md-tile-left.inset(hide-sm='')
-                                                        user-avatar
+                                                    img(src='/images/package_icon.svg', width='10%', height='7%')
                                                     .md-tile-content(md-ink-ripple='', ng-click='null')
-                                                        h3 {{item.name}}
-                                                        h4 {{item.carrier}} {{item.expected}}
+                                                        h3 {{item.description}}
+                                                        h4 {{item.carrier}}:  {{item.tracking_code}}
                                                         p
                                                             | {{item.details}}
                                                 md-divider(md-inset='', hide-sm='', ng-if='!$last')
                                                 md-divider(hide-gt-sm='', ng-if='!$last')
-                                            md-divider
-                                            md-item.inset(layout='')
-                                                md-button.md-primary(layout='', layout-align='start center', flex='')
-                                                    svg(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewbox='0 0 24 24')
-                                                        path(d='M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z')
-                                                    |  More
+
         // Dependencies
         script(src='//code.jquery.com/jquery-2.2.3.min.js')
         script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js')
