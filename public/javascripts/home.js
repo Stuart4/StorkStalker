@@ -56,11 +56,6 @@ app.controller('AppCtrl',['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog',
                     );
                     failed = true;
                 }
-                if (answer.middle == undefined || answer.middle == null || answer.middle.length <= 0) {
-                    answer.middle = ' ';
-                } else {
-                    answer.middle = ' ' + answer.middle + ' ';
-                }
                 if (answer.last == undefined || answer.last == null || answer.last.length == 0) {
                     $mdToast.show(
                         $mdToast.simple()
@@ -83,22 +78,6 @@ app.controller('AppCtrl',['$scope', '$mdBottomSheet', '$mdSidenav', '$mdDialog',
                     $mdToast.show(
                         $mdToast.simple()
                             .content('Password cannot be empty')
-                            .position("top right")
-                            .hideDelay(4000)
-                    );
-                    failed = true;
-                } else if (answer.confirmpassword == undefined || answer.confirmpassword == null || answer.confirmpassword.length <= 0) {
-                    $mdToast.show(
-                        $mdToast.simple()
-                            .content('Please confirm password')
-                            .position("top right")
-                            .hideDelay(4000)
-                    );
-                    failed = true;
-                } else if (answer.password != answer.confirmpassword) {
-                    $mdToast.show(
-                        $mdToast.simple()
-                            .content('Passwords must match')
                             .position("top right")
                             .hideDelay(4000)
                     );
