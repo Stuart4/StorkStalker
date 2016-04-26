@@ -7,39 +7,50 @@
         </md-toolbar>
 
         <md-content class="md-padding" layout="column" layout-align="center center">
-        <div>
-        <md-content class="md-padding" align="center">
-            <md-input-container flex>
-                <label style="color: black">First Name</label>
-                <input type="text" ng-model="user.first">
-            </md-input-container>
-            <md-input-container flex>
-                <label style="color: black">Last Name</label>
-                <input type="text" ng-model="user.last">
-            </md-input-container>
-        </md-content>
-        </div>
+            <div>
+                <md-content class="md-padding" align="center">
+                    <md-input-container flex>
+                        <label style="color: black">First Name<sup>*</sup></label>
+                        <input type="text" ng-model="user.first">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label style="color: black">Middle Name</label>
+                        <input type="text" ng-model="user.middle">
+                    </md-input-container>
+                </md-content>
+            </div>
+            <div>
+                <md-content class="md-padding" align="center">
+                    <md-input-container flex>
+                        <label style="color: black">Last Name<sup>*</sup></label>
+                        <input type="text" ng-model="user.last">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label style="color: black">Email Address<sup>*</sup></label>
+                        <input type="text" ng-model="user.email">
+                    </md-input-container>
+                </md-content>
+            </div>
+            <div>
+                <md-content class="md-padding" align="center">
+                    <md-input-container flex>
+                        <label style="color: black">Password<sup>*</sup></label>
+                        <input type="password" ng-model="user.password">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label style="color: black">Confirm Password<sup>*</sup></label>
+                        <input type="password" ng-model="user.confirmpassword">
+                    </md-input-container>
+                </md-content>
+            </div>
 
-        <div>
-        <md-content class="md-padding" align="center">
-            <md-input-container flex>
-                <label style="color: black">Email Address</label>
-                <input type="text" ng-model="user.email">
-            </md-input-container>
-            <md-input-container flex>
-                <label style="color: black">Password</label>
-                <input type="password" ng-model="user.password">
-            </md-input-container>
+            <div>
+                <md-content class="md-padding" align="center">
+                    <md-button class="md-raised md-primary" ng-click="answer(user)" style="background-color: #2196F3" type=submit>
+                        Sign-Up
+                    </md-button>
+                </md-content>
+            </div>
         </md-content>
-        </div>
-
-        <div>
-        <md-content class="md-padding" align="center">
-            <md-button class="md-raised md-primary" ng-click="answer(user)" style="background-color: #2196F3" type=submit>
-                Sign-Up
-            </md-button>
-        </md-content>
-        </div>
-            </md-content>
     </form>
 </md-dialog>

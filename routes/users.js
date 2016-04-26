@@ -20,7 +20,6 @@ router.get('/', function(req, res, next) {
 /* Post to users. */
 router.post('/', function(req, res) {
   req.body.theme = 'blueTheme';
-  req.body.middle = ' ';
   var child = new db.UserModel(req.body);
   child.save(function (err) {
     if (err) {
